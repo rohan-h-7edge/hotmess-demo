@@ -14,6 +14,7 @@ export const lightColors = {
   chrome: '#222222',
   onChrome: '#FFFFFF',
   onChromeMuted: '#8E8E8E',
+  scrim: 'rgba(0, 0, 0, 0.35)',
 };
 
 export type ThemeColors = typeof lightColors;
@@ -35,4 +36,5 @@ export const darkColors: ThemeColors = {
   chrome: '#222222',
   onChrome: '#FFFFFF',
   onChromeMuted: '#8E8E8E',
+  scrim: 'rgba(0, 0, 0, 0.35)',
 };

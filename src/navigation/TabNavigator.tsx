@@ -1,5 +1,6 @@
 import React from 'react';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/common';
 import { Icon } from '@/components/icon';
@@ -14,6 +15,12 @@ import type { TabParamList } from './types';
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const TAB_LABEL_MAX_FONT_SCALE = 1.3;
+
+const tabPressFeedback = {
+  tabPress: () => {
+    Haptics.selectionAsync();
+  },
+};
 
 const tabIcons = {
   Home: require('@/assets/icons/home.svg'),
@@ -46,7 +53,7 @@ export default function TabNavigator() {
   const { colors } = useTheme();
 
   return (
-    <Tab.Navigator screenOptions={createScreenOptions(colors)}>
+    <Tab.Navigator screenOptions={createScreenOptions(colors)} screenListeners={tabPressFeedback}>
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: t('home:tabTitle') }} />
       <Tab.Screen name="Wishlist" component={WishlistScreen} options={{ title: t('wishlist:tabTitle') }} />
       <Tab.Screen name="Editorials" component={EditorialsScreen} options={{ title: t('editorials:tabTitle') }} />

@@ -4,6 +4,10 @@ import { useUserStore } from '@/features/user';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import AppNavigator from '../AppNavigator';
 
+jest.mock('@/features/catalog', () => ({
+  useProducts: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
+}));
+
 describe('AppNavigator', () => {
   afterEach(() => useUserStore.getState().signOut());
 
@@ -19,13 +23,13 @@ describe('AppNavigator', () => {
 
     await renderWithProviders(<AppNavigator />);
 
-    expect(await screen.findByText('Environment Variables:')).toBeOnTheScreen();
+    expect(await screen.findByText('New In')).toBeOnTheScreen();
   });
 
   it('goes straight to login after signing out, without the splash', async () => {
     useUserStore.getState().signIn('u-1', 'a1', 'r1');
     await renderWithProviders(<AppNavigator />);
-    await screen.findByText('Environment Variables:');
+    await screen.findByText('New In');
 
     await act(async () => {
       useUserStore.getState().signOut();

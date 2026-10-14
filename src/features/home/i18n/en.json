@@ -1,5 +1,17 @@
 {
   "tabTitle": "Home",
-  "title": "Home",
-  "environment": "Environment Variables:"
+  "collections": {
+    "women": "Women",
+    "kids": "Kids",
+    "living": "Living"
+  },
+  "banner": {
+    "title": "Winter Collection",
+    "tagline": "“Don't Miss Out on Our Buy 1 Get 1 Free Offer!”",
+    "cta": "Shop Now"
+  },
+  "newIn": {
+    "title": "New In",
+    "subtitle": "Check Out the Freshest Additions to Our Collection!"
+  }
 }
