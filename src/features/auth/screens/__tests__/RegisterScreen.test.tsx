@@ -8,7 +8,7 @@ import RegisterScreen from '../RegisterScreen';
 jest.mock('../../services/authService', () => ({ authService: { register: jest.fn() } }));
 
 const renderRegister = async () => {
-  const navigation = { popTo: jest.fn() };
+  const navigation = { popTo: jest.fn(), goBack: jest.fn() };
   const props = { navigation, route: { key: 'Register', name: 'Register' } } as unknown as RootStackScreenProps<'Register'>;
   await renderWithProviders(<RegisterScreen {...props} />);
   return navigation;
@@ -45,5 +45,13 @@ describe('RegisterScreen', () => {
     await fireEvent.press(screen.getByRole('link', { name: 'Sign In' }));
 
     expect(navigation.popTo).toHaveBeenCalledWith('Login');
+  });
+
+  it('goes back to login from the top-left arrow', async () => {
+    const navigation = await renderRegister();
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Back' }));
+
+    expect(navigation.goBack).toHaveBeenCalledTimes(1);
   });
 });

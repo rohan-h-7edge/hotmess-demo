@@ -26,7 +26,7 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout onBackPress={() => navigation.goBack()}>
       <AuthHeader title={t('register.title')} subtitle={t('register.subtitle')} />
       <RegisterForm
         values={form.values}

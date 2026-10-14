@@ -1,17 +1,24 @@
 import React, { ReactNode, useRef } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaScreen } from '@/components/common';
-import { spacing } from '@/theme';
+import { Icon } from '@/components/icon';
+import { spacing, useTheme } from '@/theme';
 import { RevealFocusedFieldContext, revealOffset } from '../hooks/useRevealFocusedField';
 
 interface AuthLayoutProps {
   children: ReactNode;
+  onBackPress?: () => void;
 }
+
+const backIcon = require('@/assets/icons/arrow-left.svg');
 
 // Android resizes natively (plugins/withAndroidImeInsets), so only iOS needs the avoiding view.
 const avoidsKeyboard = Platform.OS === 'ios';
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default function AuthLayout({ children, onBackPress }: AuthLayoutProps) {
+  const { t } = useTranslation();
+  const { colors } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
   const formRef = useRef<View>(null);
   const viewportHeight = useRef(0);
@@ -29,6 +36,13 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
   return (
     <SafeAreaScreen>
+      {onBackPress ? (
+        <View style={styles.topBar}>
+          <Pressable accessibilityRole="button" accessibilityLabel={t('actions.back')} hitSlop={spacing.md} onPress={onBackPress}>
+            <Icon source={backIcon} color={colors.text} />
+          </Pressable>
+        </View>
+      ) : null}
       <KeyboardAvoidingView behavior="padding" enabled={avoidsKeyboard} style={styles.fill}>
         <RevealFocusedFieldContext.Provider value={revealFocusedField}>
           <ScrollView
@@ -56,6 +70,11 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 }
 
 const styles = StyleSheet.create({
+  topBar: {
+    flexDirection: 'row',
+    paddingHorizontal: spacing.xxl,
+    paddingTop: spacing.lg,
+  },
   fill: {
     flex: 1,
   },
