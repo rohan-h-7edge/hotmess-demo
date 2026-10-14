@@ -82,8 +82,7 @@ src/
 plugins/                 Expo config plugins (Android keyboard insets)
 ```
 
-<details>
-<summary>Full project tree</summary>
+#### Full project tree
 
 Generated, ignored and tooling folders are left out (`node_modules`, `android`, `ios`, `.expo`, `.git`, `.claude`). Every folder that contains code also has a `__tests__/` folder with its tests; those are left out to keep the tree readable.
 
@@ -395,8 +394,6 @@ hotmess-demo/
 ├── skills-lock.json
 └── tsconfig.json
 ```
-
-</details>
 
 ### Features
 
