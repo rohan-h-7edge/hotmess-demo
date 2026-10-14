@@ -1,5 +1,37 @@
 {
   "tabTitle": "प्रोफ़ाइल",
   "title": "प्रोफ़ाइल",
-  "signOut": "साइन आउट करें"
+  "signOut": "साइन आउट करें",
+  "signOutDialog": {
+    "title": "साइन आउट करें?",
+    "message": "अपना कार्ट और विशलिस्ट देखने के लिए आपको फिर से साइन इन करना होगा।"
+  },
+  "sections": {
+    "shopping": "शॉपिंग",
+    "settings": "सेटिंग्स",
+    "account": "खाता"
+  },
+  "menu": {
+    "cart": "मेरा कार्ट",
+    "wishlist": "विशलिस्ट",
+    "language": "भाषा",
+    "editProfile": "प्रोफ़ाइल बदलें"
+  },
+  "itemCount_one": "{{count}} आइटम",
+  "itemCount_other": "{{count}} आइटम",
+  "languages": {
+    "en": "English",
+    "hi": "हिन्दी"
+  },
+  "edit": {
+    "title": "प्रोफ़ाइल बदलें",
+    "email": "ईमेल बदला नहीं जा सकता",
+    "save": "बदलाव सेव करें"
+  },
+  "fields": {
+    "firstName": "पहला नाम",
+    "lastName": "उपनाम",
+    "username": "यूज़रनेम",
+    "email": "ईमेल"
+  }
 }

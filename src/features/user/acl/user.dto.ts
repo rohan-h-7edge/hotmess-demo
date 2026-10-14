@@ -1,16 +1,21 @@
 import { z } from 'zod';
 
-export const UserProfileDtoSchema = z.object({
+export const AuthUserDtoSchema = z.object({
   id: z.string(),
-  full_name: z.string(),
-  email_address: z.email(),
-  avatar_url: z.url().nullable().optional(),
+  email: z.string(),
+  user_metadata: z
+    .object({
+      first_name: z.string().optional(),
+      last_name: z.string().optional(),
+      username: z.string().optional(),
+    })
+    .default({}),
 });
 
-export type UserProfileDto = z.infer<typeof UserProfileDtoSchema>;
-
-export interface UpdateProfileRequestDto {
-  full_name: string;
-  email_address: string;
-  avatar_url: string | null;
+export interface UpdateAuthUserRequestDto {
+  data: {
+    first_name: string;
+    last_name: string;
+    username: string;
+  };
 }

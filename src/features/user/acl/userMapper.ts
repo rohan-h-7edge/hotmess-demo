@@ -1,18 +1,21 @@
 import type { UpdateProfileInput, UserProfile } from '../types/user.types';
-import { UpdateProfileRequestDto, UserProfileDtoSchema } from './user.dto';
+import { AuthUserDtoSchema, UpdateAuthUserRequestDto } from './user.dto';
 
 export const toUserProfile = (raw: unknown): UserProfile => {
-  const dto = UserProfileDtoSchema.parse(raw);
+  const dto = AuthUserDtoSchema.parse(raw);
   return {
     id: dto.id,
-    name: dto.full_name,
-    email: dto.email_address,
-    avatarUrl: dto.avatar_url ?? undefined,
+    email: dto.email,
+    firstName: dto.user_metadata.first_name ?? '',
+    lastName: dto.user_metadata.last_name ?? '',
+    username: dto.user_metadata.username ?? '',
   };
 };
 
-export const toUpdateProfileRequest = (input: UpdateProfileInput): UpdateProfileRequestDto => ({
-  full_name: input.name,
-  email_address: input.email,
-  avatar_url: input.avatarUrl ?? null,
+export const toUpdateProfileRequest = (input: UpdateProfileInput): UpdateAuthUserRequestDto => ({
+  data: {
+    first_name: input.firstName,
+    last_name: input.lastName,
+    username: input.username,
+  },
 });

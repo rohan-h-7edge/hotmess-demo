@@ -1,10 +1,11 @@
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
+import type { CollectionKey } from '@/features/catalog';
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type HomeStackParamList = {
   HomeMain: undefined;
-  NewIn: undefined;
+  ProductList: { collection: CollectionKey };
 };
 
 export type TabParamList = {
@@ -19,6 +20,8 @@ export type RootStackParamList = {
   Login: { registeredEmail: string; needsEmailConfirmation: boolean } | undefined;
   Register: undefined;
   Cart: undefined;
+  EditProfile: undefined;
+  Search: undefined;
   Main: NavigatorScreenParams<TabParamList>;
 };
 

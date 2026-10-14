@@ -45,7 +45,7 @@ describe('WishlistScreen', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Shop Now' }));
 
     expect(screen.getByText('0 saved items')).toBeOnTheScreen();
-    expect(navigation.navigate).toHaveBeenCalledWith('Home', { screen: 'NewIn' });
+    expect(navigation.navigate).toHaveBeenCalledWith('Home', { screen: 'ProductList', params: { collection: 'newIn' } });
   });
 
   it('lists saved products with their price and cart state', async () => {
@@ -58,10 +58,12 @@ describe('WishlistScreen', () => {
     expect(screen.getByRole('button', { name: 'In Cart (1)' })).toBeOnTheScreen();
   });
 
-  it('removes from the wishlist with the heart and adds to the cart', async () => {
+  it('asks before removing with the heart, and adds to the cart', async () => {
     await renderWishlist({ data: [item] });
 
     await fireEvent.press(screen.getByRole('button', { name: 'Remove from wishlist' }));
+    expect(screen.getByRole('header', { name: 'Remove from Wishlist ?' })).toBeOnTheScreen();
+    await fireEvent.press(screen.getByRole('button', { name: 'Confirm' }));
     await fireEvent.press(screen.getByRole('button', { name: 'Add to Cart' }));
 
     expect(removeFromWishlist.mutate).toHaveBeenCalledWith('1');
@@ -76,5 +78,14 @@ describe('WishlistScreen', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent('Network error');
     expect(refetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the item when removal is cancelled', async () => {
+    await renderWishlist({ data: [item] });
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Remove from wishlist' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(removeFromWishlist.mutate).not.toHaveBeenCalled();
   });
 });

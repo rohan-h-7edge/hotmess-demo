@@ -5,7 +5,7 @@ import AuthFooterLink from '../components/AuthFooterLink';
 import AuthHeader from '../components/AuthHeader';
 import AuthLayout from '../components/AuthLayout';
 import RegisterForm from '../components/RegisterForm';
-import { useForm } from '../hooks/useForm';
+import { useForm } from '@/hooks/useForm';
 import { useRegister } from '../queries/useRegister';
 import { RegisterSchema } from '../types/auth.types';
 

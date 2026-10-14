@@ -57,4 +57,14 @@ describe('AppNavigator', () => {
 
     expect(await screen.findByRole('header', { name: 'Cart' })).toBeOnTheScreen();
   });
+
+  it('opens search from the header', async () => {
+    useUserStore.getState().signIn('u-1', 'a1', 'r1');
+    await renderWithProviders(<AppNavigator />);
+    await screen.findByText('New In');
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Search' }));
+
+    expect(await screen.findByPlaceholderText('Search products')).toBeOnTheScreen();
+  });
 });

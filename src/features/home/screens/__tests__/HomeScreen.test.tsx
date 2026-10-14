@@ -47,6 +47,22 @@ describe('HomeScreen', () => {
 
     await fireEvent.press(screen.getByRole('link', { name: 'View All' }));
 
-    expect(navigation.navigate).toHaveBeenCalledWith('NewIn');
+    expect(navigation.navigate).toHaveBeenCalledWith('ProductList', { collection: 'newIn' });
+  });
+
+  it('opens each collection from its tile and the winter banner', async () => {
+    const navigation = await renderHome();
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Women' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Kids' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Living' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Shop Now' }));
+
+    expect(navigation.navigate.mock.calls).toEqual([
+      ['ProductList', { collection: 'women' }],
+      ['ProductList', { collection: 'kids' }],
+      ['ProductList', { collection: 'living' }],
+      ['ProductList', { collection: 'winter' }],
+    ]);
   });
 });

@@ -3,21 +3,23 @@ import { userService } from '../userService';
 
 jest.mock('@/services/api', () => ({ api: { get: jest.fn(), put: jest.fn() } }));
 
-const profileDto = { id: '1', full_name: 'Rohan', email_address: 'r@x.co' };
-const profile = { id: '1', name: 'Rohan', email: 'r@x.co', avatarUrl: undefined };
+const userDto = { id: 'u-1', email: 'ana@x.co', user_metadata: { first_name: 'Ana', last_name: 'Ray', username: 'anaray' } };
+const profile = { id: 'u-1', email: 'ana@x.co', firstName: 'Ana', lastName: 'Ray', username: 'anaray' };
 
 describe('userService', () => {
-  it('fetches and maps the profile', async () => {
-    jest.mocked(api.get).mockResolvedValue(profileDto);
+  it('reads the signed-in user', async () => {
+    jest.mocked(api.get).mockResolvedValue(userDto);
 
-    await expect(userService.getProfile('1')).resolves.toEqual(profile);
-    expect(api.get).toHaveBeenCalledWith('/users/1');
+    await expect(userService.getProfile()).resolves.toEqual(profile);
+    expect(api.get).toHaveBeenCalledWith('/auth/v1/user');
   });
 
-  it('sends the backend-shaped body and maps the response', async () => {
-    jest.mocked(api.put).mockResolvedValue(profileDto);
+  it('trims and saves the edited names', async () => {
+    jest.mocked(api.put).mockResolvedValue(userDto);
 
-    await expect(userService.updateProfile('1', { name: '  Rohan  ', email: 'r@x.co' })).resolves.toEqual(profile);
-    expect(api.put).toHaveBeenCalledWith('/users/1', { full_name: 'Rohan', email_address: 'r@x.co', avatar_url: null });
+    await expect(userService.updateProfile({ firstName: ' Ana ', lastName: 'Ray', username: 'anaray' })).resolves.toEqual(profile);
+    expect(api.put).toHaveBeenCalledWith('/auth/v1/user', {
+      data: { first_name: 'Ana', last_name: 'Ray', username: 'anaray' },
+    });
   });
 });

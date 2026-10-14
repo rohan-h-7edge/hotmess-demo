@@ -1,5 +1,37 @@
 {
   "tabTitle": "Profile",
   "title": "Profile",
-  "signOut": "Sign Out"
+  "signOut": "Sign Out",
+  "signOutDialog": {
+    "title": "Sign out ?",
+    "message": "You'll need to sign in again to see your cart and wishlist."
+  },
+  "sections": {
+    "shopping": "Shopping",
+    "settings": "Settings",
+    "account": "Account"
+  },
+  "menu": {
+    "cart": "My Cart",
+    "wishlist": "Wishlist",
+    "language": "Language",
+    "editProfile": "Edit Profile"
+  },
+  "itemCount_one": "{{count}} item",
+  "itemCount_other": "{{count}} items",
+  "languages": {
+    "en": "English",
+    "hi": "हिन्दी"
+  },
+  "edit": {
+    "title": "Edit Profile",
+    "email": "Email can't be changed",
+    "save": "Save Changes"
+  },
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "username": "Username",
+    "email": "Email"
+  }
 }

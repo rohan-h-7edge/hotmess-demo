@@ -22,11 +22,6 @@
     "username": "Username",
     "password": "Password"
   },
-  "validation": {
-    "usernameTooShort": "Username must be at least 3 characters",
-    "firstNameRequired": "First name is required",
-    "lastNameRequired": "Last name is required"
-  },
   "password": {
     "show": "Show password",
     "hide": "Hide password"

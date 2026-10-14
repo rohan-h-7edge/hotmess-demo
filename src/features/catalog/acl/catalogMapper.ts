@@ -39,6 +39,20 @@ export const toProducts = (raw: unknown): Product[] =>
       inStock: dto.stock > 0,
     }));
 
+// Each word must appear somewhere in the name; anything but letters, digits and hyphens is dropped
+// because commas and parentheses are PostgREST syntax.
+export const toSearchParams = (search: string | undefined): ProductQueryParamsDto => {
+  const words = (search ?? '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 5);
+  if (words.length === 0) return {};
+  if (words.length === 1) return { name: `ilike.*${words[0]}*` };
+  return { and: `(${words.map((word) => `name.ilike.*${word}*`).join(',')})` };
+};
+
 // A category slug matches itself and everything below it, e.g. "apparel" also matches "apparel-topwear-shirts".
 export const toProductQueryParams = (filter: ProductFilter): ProductQueryParamsDto => ({
   select: PRODUCT_COLUMNS,
@@ -47,6 +61,7 @@ export const toProductQueryParams = (filter: ProductFilter): ProductQueryParamsD
   ...(filter.offset ? { offset: filter.offset } : {}),
   ...(filter.genders?.length ? { gender: `in.(${filter.genders.join(',')})` } : {}),
   ...(filter.season ? { season: `eq.${SEASON_VALUES[filter.season]}` } : {}),
+  ...toSearchParams(filter.search),
   ...(filter.categorySlug
     ? { 'category.or': `(slug.eq.${filter.categorySlug},slug.like.${filter.categorySlug}-*)` }
     : {}),

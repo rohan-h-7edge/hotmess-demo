@@ -34,4 +34,19 @@ describe('HomeStackNavigator', () => {
 
     expect(await screen.findByText('Discover fashion’s fresh take on the ultimate wardrobe essentials')).toBeOnTheScreen();
   });
+
+  it('shows a back button on product lists that returns to Home', async () => {
+    await renderWithProviders(
+      <NavigationContainer>
+        <HomeStackNavigator />
+      </NavigationContainer>
+    );
+    expect(screen.queryByRole('button', { name: 'Back' })).not.toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByRole('link', { name: 'View All' }));
+    await fireEvent.press(await screen.findByRole('button', { name: 'Back' }));
+
+    expect(await screen.findByRole('link', { name: 'View All' })).toBeOnTheScreen();
+    expect(screen.queryByRole('button', { name: 'Back' })).not.toBeOnTheScreen();
+  });
 });

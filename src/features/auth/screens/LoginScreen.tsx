@@ -8,7 +8,7 @@ import AuthFooterLink from '../components/AuthFooterLink';
 import AuthHeader from '../components/AuthHeader';
 import AuthLayout from '../components/AuthLayout';
 import LoginForm from '../components/LoginForm';
-import { useForm } from '../hooks/useForm';
+import { useForm } from '@/hooks/useForm';
 import { useLogin } from '../queries/useLogin';
 import { LoginSchema } from '../types/auth.types';
 

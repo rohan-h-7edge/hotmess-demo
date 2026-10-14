@@ -4,46 +4,27 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
 import { ListHeader, SafeAreaScreen } from '@/components/common';
 import { ProductGridCard } from '@/components/product';
-import { useAddToCart, useCart } from '@/features/cart';
-import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from '@/features/wishlist';
 import { AppText } from '@/components/typography';
+import type { HomeStackScreenProps } from '@/navigation/types';
+import { useGridItemWidth } from '@/hooks/useGridItemWidth';
 import { spacing, useTheme } from '@/theme';
+import { COLLECTIONS } from '../config/collections';
 import FilterButton from '../components/FilterButton';
+import { useProductCardActions } from '../hooks/useProductCardActions';
 import { useProductPages } from '../queries/useProductPages';
-import type { Product, ProductQuery } from '../types/catalog.types';
 import { formatPrice } from '@/utils/formatPrice';
 
-const NEW_IN_QUERY: ProductQuery = { categorySlug: 'apparel' };
+// A fixed width keeps a lone item in the last row the same size as the others.
+const GRID_COLUMNS = 2;
 
-export default function NewInScreen() {
+export default function ProductListScreen({ route }: HomeStackScreenProps<'ProductList'>) {
   const { t, i18n } = useTranslation('catalog');
   const { colors } = useTheme();
-  const products = useProductPages(NEW_IN_QUERY);
-  const cart = useCart();
-  const addToCart = useAddToCart();
-  const wishlist = useWishlist();
-  const addToWishlist = useAddToWishlist();
-  const removeFromWishlist = useRemoveFromWishlist();
+  const itemWidth = useGridItemWidth(GRID_COLUMNS, spacing.lg, spacing.lg);
+  const { collection } = route.params;
+  const products = useProductPages(COLLECTIONS[collection]);
+  const actions = useProductCardActions();
   const priceLocale = `${i18n.language}-IN`;
-  const cartQuantities = new Map(cart.data?.map((item) => [item.productId, item.quantity]));
-  const wishlistedIds = new Set(wishlist.data?.map((item) => item.productId));
-
-  const toggleWishlist = (product: Product) => {
-    if (wishlistedIds.has(product.id)) {
-      removeFromWishlist.mutate(product.id);
-      return;
-    }
-    addToWishlist.mutate({
-      productId: product.id,
-      name: product.name,
-      typeName: product.categoryName,
-      colour: product.colour,
-      price: product.price,
-      currency: product.currency,
-      imageUrl: product.imageUrl,
-      inStock: product.inStock,
-    });
-  };
 
   const loadMore = () => {
     if (products.hasNextPage && !products.isFetchingNextPage) products.fetchNextPage();
@@ -54,7 +35,7 @@ export default function NewInScreen() {
     if (products.data?.length && !products.hasNextPage) {
       return (
         <AppText variant="caption" style={[styles.footer, styles.centered]}>
-          {t('newIn.end')}
+          {t('end')}
         </AppText>
       );
     }
@@ -79,26 +60,29 @@ export default function NewInScreen() {
   return (
     <SafeAreaScreen edges={[]}>
       <FlatList
-        testID="new-in-list"
+        testID="product-list"
         data={products.data}
         keyExtractor={(product) => product.id}
-        numColumns={2}
+        numColumns={GRID_COLUMNS}
         renderItem={({ item }) => (
           <ProductGridCard
+            style={{ width: itemWidth }}
             name={item.name}
             typeName={item.categoryName}
             colour={item.colour}
             priceLabel={formatPrice(item.price, item.currency, priceLocale)}
             imageUrl={item.imageUrl}
             inStock={item.inStock}
-            cartQuantity={cartQuantities.get(item.id) ?? 0}
-            isAddingToCart={addToCart.isPending && addToCart.variables === item.id}
-            isWishlisted={wishlistedIds.has(item.id)}
-            onWishlistPress={() => toggleWishlist(item)}
-            onAddToCartPress={() => addToCart.mutate(item.id)}
+            cartQuantity={actions.cartQuantity(item.id)}
+            isAddingToCart={actions.isAddingToCart(item.id)}
+            isWishlisted={actions.isWishlisted(item.id)}
+            onWishlistPress={() => actions.toggleWishlist(item)}
+            onAddToCartPress={() => actions.addToCart(item.id)}
           />
         )}
-        ListHeaderComponent={<ListHeader title={t('newIn.title')} subtitle={t('newIn.subtitle')} />}
+        ListHeaderComponent={
+          <ListHeader title={t(`collections.${collection}.title`)} subtitle={t(`collections.${collection}.subtitle`)} />
+        }
         ListEmptyComponent={renderEmptyState()}
         ListFooterComponent={renderFooter()}
         onEndReached={loadMore}

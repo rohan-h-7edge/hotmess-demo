@@ -1,4 +1,4 @@
-import { ProductFilter, useProducts } from '@/features/catalog';
+import { CollectionKey, ProductFilter, useProducts } from '@/features/catalog';
 
 const COLLECTION_FILTERS = {
   women: { genders: ['women'], categorySlug: 'apparel-topwear', limit: 1 },
@@ -9,7 +9,7 @@ const COLLECTION_FILTERS = {
 const BANNER_FILTER: ProductFilter = { genders: ['women'], categorySlug: 'apparel-topwear', season: 'winter', limit: 1 };
 const NEW_IN_FILTER: ProductFilter = { categorySlug: 'apparel', limit: 10 };
 
-export type CollectionKey = keyof typeof COLLECTION_FILTERS;
+type HomeCollectionKey = keyof typeof COLLECTION_FILTERS & CollectionKey;
 
 export const useHomeCatalog = () => {
   const women = useProducts(COLLECTION_FILTERS.women);
@@ -18,7 +18,7 @@ export const useHomeCatalog = () => {
   const banner = useProducts(BANNER_FILTER);
   const newIn = useProducts(NEW_IN_FILTER);
 
-  const collections: { key: CollectionKey; imageUrl?: string }[] = [
+  const collections: { key: HomeCollectionKey; imageUrl?: string }[] = [
     { key: 'women', imageUrl: women.data?.[0]?.imageUrl },
     { key: 'kids', imageUrl: kids.data?.[0]?.imageUrl },
     { key: 'living', imageUrl: living.data?.[0]?.imageUrl },

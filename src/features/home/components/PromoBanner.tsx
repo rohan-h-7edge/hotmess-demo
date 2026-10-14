@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Button } from '@/components/button';
 import { AppText } from '@/components/typography';
@@ -11,15 +11,15 @@ interface PromoBannerProps {
   tagline: string;
   ctaLabel: string;
   imageUrl?: string;
-  onCtaPress?: () => void;
+  onPress: () => void;
 }
 
-export default function PromoBanner({ title, tagline, ctaLabel, imageUrl, onCtaPress }: PromoBannerProps) {
+export default function PromoBanner({ title, tagline, ctaLabel, imageUrl, onPress }: PromoBannerProps) {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
   return (
-    <View style={styles.banner}>
+    <Pressable accessibilityRole="button" accessibilityLabel={title} onPress={onPress} style={styles.banner}>
       {imageUrl ? (
         <Image
           source={{ uri: imageUrl }}
@@ -30,7 +30,7 @@ export default function PromoBanner({ title, tagline, ctaLabel, imageUrl, onCtaP
       ) : null}
       <View style={styles.scrim} />
       <View style={styles.cta}>
-        <Button title={ctaLabel} variant="inverse" onPress={onCtaPress} />
+        <Button title={ctaLabel} variant="inverse" onPress={onPress} />
       </View>
       <AppText variant="headline" color="onMedia">
         {title}
@@ -38,7 +38,7 @@ export default function PromoBanner({ title, tagline, ctaLabel, imageUrl, onCtaP
       <AppText variant="caption" color="onMedia">
         {tagline}
       </AppText>
-    </View>
+    </Pressable>
   );
 }
 

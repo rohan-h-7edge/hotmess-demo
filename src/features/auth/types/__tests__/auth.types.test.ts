@@ -26,10 +26,10 @@ describe('RegisterSchema', () => {
     const result = RegisterSchema.safeParse({ firstName: '', lastName: '', email: 'x', username: 'ab', password: 'short' });
 
     expect(result.error?.issues.map((issue) => issue.message)).toEqual([
-      'auth:validation.firstNameRequired',
-      'auth:validation.lastNameRequired',
+      'common:validation.firstNameRequired',
+      'common:validation.lastNameRequired',
       'common:validation.emailInvalid',
-      'auth:validation.usernameTooShort',
+      'common:validation.usernameTooShort',
       'common:validation.passwordTooShort',
     ]);
   });

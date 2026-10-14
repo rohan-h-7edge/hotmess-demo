@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { radius, spacing, ThemeColors, useTheme } from '@/theme';
@@ -9,6 +9,7 @@ import { Icon } from '../icon';
 import { AppText } from '../typography';
 
 interface ProductGridCardProps {
+  style?: StyleProp<ViewStyle>;
   name: string;
   typeName: string;
   colour: string | null;
@@ -38,6 +39,7 @@ export default function ProductGridCard({
   isWishlisted,
   onWishlistPress,
   onAddToCartPress,
+  style,
 }: ProductGridCardProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -50,7 +52,7 @@ export default function ProductGridCard({
   };
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, style]}>
       <View style={styles.media}>
         <Image source={{ uri: imageUrl }} style={styles.image} contentFit="cover" recyclingKey={imageUrl} transition={200} />
         <Pressable
@@ -93,7 +95,6 @@ export default function ProductGridCard({
 const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     card: {
-      flex: 1,
       gap: spacing.md,
     },
     media: {

@@ -15,4 +15,19 @@ describe('AppHeader', () => {
     expect(onSearchPress).toHaveBeenCalledTimes(1);
     expect(onBagPress).toHaveBeenCalledTimes(1);
   });
+
+  it('shows a back button only when it can go back', async () => {
+    const onBackPress = jest.fn();
+    await render(<AppHeader onBackPress={onBackPress} />);
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Back' }));
+
+    expect(onBackPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('has no back button by default', async () => {
+    await render(<AppHeader />);
+
+    expect(screen.queryByRole('button', { name: 'Back' })).not.toBeOnTheScreen();
+  });
 });

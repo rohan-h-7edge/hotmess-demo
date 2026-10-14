@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
 import { Header, SafeAreaScreen } from '@/components/common';
+import { ConfirmDialog } from '@/components/dialog';
 import { AppText } from '@/components/typography';
 import type { RootStackScreenProps } from '@/navigation/types';
 import { spacing, ThemeColors, useTheme } from '@/theme';
@@ -29,6 +30,7 @@ export default function CartScreen({ navigation, onMoveToWishlist }: CartScreenP
   const cart = useCart();
   const updateQuantity = useUpdateCartQuantity();
   const removeFromCart = useRemoveFromCart();
+  const [itemToRemove, setItemToRemove] = useState<CartItem | null>(null);
 
   const items = cart.data ?? [];
   const priceLocale = `${i18n.language}-IN`;
@@ -36,7 +38,15 @@ export default function CartScreen({ navigation, onMoveToWishlist }: CartScreenP
   const totalLabel = formatPrice(cartTotal(items), currency, priceLocale);
   const canCheckout = items.some((item) => item.inStock);
 
-  const shopNow = () => navigation.navigate('Main', { screen: 'Home', params: { screen: 'NewIn' } });
+  const confirmRemove = () => {
+    if (itemToRemove) removeFromCart.mutate(itemToRemove.productId);
+    setItemToRemove(null);
+  };
+
+  const shopNow = () => navigation.navigate('Main', {
+      screen: 'Home',
+      params: { screen: 'ProductList', params: { collection: 'newIn' } },
+    });
 
   const renderBody = () => {
     if (cart.isPending) return <ActivityIndicator color={colors.text} style={styles.state} />;
@@ -67,7 +77,7 @@ export default function CartScreen({ navigation, onMoveToWishlist }: CartScreenP
               maxQuantity={MAX_CART_QUANTITY}
               inStock={item.inStock}
               onQuantityChange={(quantity) => updateQuantity.mutate({ productId: item.productId, quantity })}
-              onRemove={() => removeFromCart.mutate(item.productId)}
+              onRemove={() => setItemToRemove(item)}
               onMoveToWishlist={() => onMoveToWishlist?.(item)}
             />
           )}
@@ -88,6 +98,14 @@ export default function CartScreen({ navigation, onMoveToWishlist }: CartScreenP
     <SafeAreaScreen>
       <Header title={t('title')} onBackPress={() => navigation.goBack()} />
       <View style={styles.body}>{renderBody()}</View>
+      <ConfirmDialog
+        visible={itemToRemove !== null}
+        title={t('removeDialog.title')}
+        message={t('removeDialog.message')}
+        imageUrl={itemToRemove?.imageUrl}
+        onConfirm={confirmRemove}
+        onCancel={() => setItemToRemove(null)}
+      />
     </SafeAreaScreen>
   );
 }

@@ -3,7 +3,8 @@
   "actions": {
     "retry": "फिर से कोशिश करें",
     "cancel": "रद्द करें",
-    "back": "वापस"
+    "back": "वापस",
+    "confirm": "पुष्टि करें"
   },
   "validation": {
     "emailRequired": "ईमेल आवश्यक है",
@@ -11,7 +12,10 @@
     "passwordRequired": "पासवर्ड आवश्यक है",
     "passwordTooShort": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "nameTooShort": "नाम कम से कम 2 अक्षरों का होना चाहिए",
-    "urlInvalid": "मान्य URL दर्ज करें"
+    "urlInvalid": "मान्य URL दर्ज करें",
+    "firstNameRequired": "पहला नाम आवश्यक है",
+    "lastNameRequired": "उपनाम आवश्यक है",
+    "usernameTooShort": "यूज़रनेम कम से कम 3 अक्षरों का होना चाहिए"
   },
   "errors": {
     "timeout": "अनुरोध का समय समाप्त हो गया। कृपया फिर से कोशिश करें।",

@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-native';
-import { LoginSchema } from '../../types/auth.types';
+import { LoginSchema } from '@/features/auth';
 import { useForm } from '../useForm';
 
 const renderLoginForm = () => renderHook(() => useForm(LoginSchema, { email: '', password: '' }));

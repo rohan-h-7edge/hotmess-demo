@@ -11,7 +11,7 @@ interface EmptyWishlistProps {
   onShopNow: () => void;
 }
 
-const heartIcon = require('@/assets/icons/heart.svg');
+const heartIcon = require('@/assets/icons/heart.png');
 const ICON_SIZE = moderateScale(64);
 
 export default function EmptyWishlist({ onShopNow }: EmptyWishlistProps) {

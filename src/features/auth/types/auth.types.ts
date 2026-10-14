@@ -25,10 +25,10 @@ export const LoginSchema = z.object({
 export type LoginInput = z.infer<typeof LoginSchema>;
 
 export const RegisterSchema = z.object({
-  firstName: z.string().trim().min(1, 'auth:validation.firstNameRequired'),
-  lastName: z.string().trim().min(1, 'auth:validation.lastNameRequired'),
+  firstName: z.string().trim().min(1, 'common:validation.firstNameRequired'),
+  lastName: z.string().trim().min(1, 'common:validation.lastNameRequired'),
   email: EmailSchema,
-  username: z.string().trim().min(3, 'auth:validation.usernameTooShort'),
+  username: z.string().trim().min(3, 'common:validation.usernameTooShort'),
   password: z.string().min(8, 'common:validation.passwordTooShort'),
 });
 

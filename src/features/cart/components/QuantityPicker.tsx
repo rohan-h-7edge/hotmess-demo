@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/icon';
 import { AppText } from '@/components/typography';
 import { radius, spacing, ThemeColors, useTheme } from '@/theme';
+import { modalOpenFeedback } from '@/utils/haptics';
 import { moderateScale } from '@/utils/scaling';
 
 interface QuantityPickerProps {
@@ -35,7 +36,14 @@ export default function QuantityPicker({ quantity, max, onChange }: QuantityPick
         </AppText>
         <Icon source={chevronIcon} color={colors.text} size={CHEVRON_SIZE} />
       </Pressable>
-      <Modal visible={isOpen} transparent animationType="fade" onRequestClose={() => setIsOpen(false)}>
+      <Modal
+        testID="quantity-picker"
+        visible={isOpen}
+        transparent
+        animationType="fade"
+        onShow={modalOpenFeedback}
+        onRequestClose={() => setIsOpen(false)}
+      >
         <Pressable style={styles.backdrop} onPress={() => setIsOpen(false)} accessible={false}>
           <View style={styles.sheet}>
             <AppText variant="headline" style={styles.sheetTitle}>
@@ -81,7 +89,7 @@ const createStyles = (colors: ThemeColors) =>
     sheet: {
       paddingVertical: spacing.md,
       borderRadius: radius.lg,
-      backgroundColor: colors.background,
+      backgroundColor: colors.surfaceElevated,
     },
     sheetTitle: {
       paddingHorizontal: spacing.lg,

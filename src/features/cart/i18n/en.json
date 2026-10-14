@@ -19,5 +19,9 @@
     "title": "Order Details",
     "total": "Total"
   },
-  "checkout": "Proceed to Checkout"
+  "checkout": "Proceed to Checkout",
+  "removeDialog": {
+    "title": "Remove from Cart ?",
+    "message": "Are you sure you want to remove this product from your cart ?"
+  }
 }

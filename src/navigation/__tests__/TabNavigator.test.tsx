@@ -18,7 +18,6 @@ jest.mock('@/features/catalog', () => ({
   useProducts: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
 }));
 
-jest.mock('expo-haptics', () => ({ selectionAsync: jest.fn() }));
 
 const renderTabs = () =>
   renderWithProviders(

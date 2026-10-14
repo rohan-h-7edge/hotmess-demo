@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Haptics from 'expo-haptics';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import QuantityPicker from '../QuantityPicker';
 
@@ -21,5 +22,14 @@ describe('QuantityPicker', () => {
     await fireEvent.press(screen.getByRole('button', { name: '2' }));
 
     expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('gives a strong haptic when the list opens', async () => {
+    await render(<QuantityPicker quantity={1} max={10} onChange={jest.fn()} />);
+
+    await fireEvent.press(screen.getByRole('button', { name: /Quantity: 1/ }));
+    await fireEvent(screen.getByTestId('quantity-picker'), 'show');
+
+    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Heavy);
   });
 });

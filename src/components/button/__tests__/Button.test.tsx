@@ -20,6 +20,13 @@ describe('Button', () => {
     expect(screen.getByText('Shop Now')).toHaveStyle({ color: lightColors.chrome });
   });
 
+  it('draws a border with text-coloured label for the outline variant', async () => {
+    await render(<Button title="Cancel" variant="outline" />);
+
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveStyle({ borderWidth: 1, borderColor: lightColors.text });
+    expect(screen.getByText('Cancel')).toHaveStyle({ color: lightColors.text });
+  });
+
   it('shows a spinner and ignores presses while loading', async () => {
     const onPress = jest.fn();
     await render(<Button title="Save" loading onPress={onPress} />);

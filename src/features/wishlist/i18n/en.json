@@ -7,5 +7,9 @@
     "title": "Your wishlist is empty",
     "message": "Tap the heart on any product to save it here for later.",
     "cta": "Shop Now"
+  },
+  "removeDialog": {
+    "title": "Remove from Wishlist ?",
+    "message": "Are you sure you want to remove this product from wishlist ?"
   }
 }

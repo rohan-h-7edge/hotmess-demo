@@ -1,18 +1,22 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NewInScreen } from '@/features/catalog';
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import { ProductListScreen } from '@/features/catalog';
 import { HomeScreen } from '@/features/home';
+import { renderAppHeader } from './renderAppHeader';
 import type { HomeStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
 
-const screenOptions = { headerShown: false };
+// The stack draws the app header so it knows when there is a screen to go back to.
+const screenOptions: NativeStackNavigationOptions = {
+  header: ({ navigation, back }) => renderAppHeader(navigation, back ? navigation.goBack : undefined),
+};
 
 export default function HomeStackNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="HomeMain" component={HomeScreen} />
-      <Stack.Screen name="NewIn" component={NewInScreen} />
+      <Stack.Screen name="ProductList" component={ProductListScreen} />
     </Stack.Navigator>
   );
 }

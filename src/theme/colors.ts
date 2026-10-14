@@ -16,6 +16,7 @@ export const lightColors = {
   onChromeMuted: '#8E8E8E',
   scrim: 'rgba(0, 0, 0, 0.35)',
   favorite: '#E53935',
+  surfaceElevated: '#FFFFFF',
 };
 
 export type ThemeColors = typeof lightColors;
@@ -39,4 +40,5 @@ export const darkColors: ThemeColors = {
   onChromeMuted: '#8E8E8E',
   scrim: 'rgba(0, 0, 0, 0.35)',
   favorite: '#E53935',
+  surfaceElevated: '#2C2C2E',
 };

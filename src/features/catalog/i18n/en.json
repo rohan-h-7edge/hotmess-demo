@@ -1,8 +1,41 @@
 {
-  "newIn": {
-    "title": "New In",
-    "subtitle": "Discover fashion’s fresh take on the ultimate wardrobe essentials",
-    "end": "You've reached the end"
+  "filter": "Filter",
+  "collections": {
+    "newIn": {
+      "title": "New In",
+      "subtitle": "Discover fashion’s fresh take on the ultimate wardrobe essentials"
+    },
+    "women": {
+      "title": "Women",
+      "subtitle": "Effortless styles for every occasion"
+    },
+    "kids": {
+      "title": "Kids",
+      "subtitle": "Playful picks for little ones"
+    },
+    "living": {
+      "title": "Living",
+      "subtitle": "Pieces that make a house feel like home"
+    },
+    "winter": {
+      "title": "Winter Collection",
+      "subtitle": "Layer up with the season’s warmest styles"
+    }
   },
-  "filter": "Filter"
+  "end": "You've reached the end",
+  "search": {
+    "placeholder": "Search products",
+    "popular": "Popular searches",
+    "terms": {
+      "shirt": "Shirts",
+      "jeans": "Jeans",
+      "watch": "Watches",
+      "shoe": "Shoes",
+      "jacket": "Jackets",
+      "bag": "Bags"
+    },
+    "noResults": "No results for “{{query}}”",
+    "noResultsHint": "Check the spelling or try a different word.",
+    "clear": "Clear search"
+  }
 }

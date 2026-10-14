@@ -65,4 +65,14 @@ describe('catalog queries', () => {
     expect(result.current.hasNextPage).toBe(false);
     expect(catalogService.getProducts).toHaveBeenLastCalledWith({ categorySlug: 'apparel', limit: 2, offset: 2 });
   });
+
+  it('does not load pages while disabled', async () => {
+    jest.mocked(catalogService.getProducts).mockClear();
+    const { result } = await renderHook(() => useProductPages({ search: '' }, 20, false), {
+      wrapper: createQueryWrapper(),
+    });
+
+    expect(result.current.fetchStatus).toBe('idle');
+    expect(catalogService.getProducts).not.toHaveBeenCalled();
+  });
 });

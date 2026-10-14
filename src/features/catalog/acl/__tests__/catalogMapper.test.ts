@@ -1,4 +1,4 @@
-import { toCategories, toProductQueryParams, toProducts } from '../catalogMapper';
+import { toCategories, toProductQueryParams, toProducts, toSearchParams } from '../catalogMapper';
 
 const SELECT =
   'id,name,gender,category_id,price,currency,image_path,base_colour,stock,category:categories!inner(slug,name)';
@@ -71,5 +71,20 @@ describe('catalogMapper', () => {
       season: 'eq.Winter',
       'category.or': '(slug.eq.apparel,slug.like.apparel-*)',
     });
+  });
+
+  it('matches every search word in the product name', () => {
+    expect(toSearchParams('Jacket')).toEqual({ name: 'ilike.*jacket*' });
+    expect(toSearchParams('  blue   jacket ')).toEqual({ and: '(name.ilike.*blue*,name.ilike.*jacket*)' });
+  });
+
+  it('drops characters that would break the query and ignores empty searches', () => {
+    expect(toSearchParams('t-shirt, (red)*')).toEqual({ and: '(name.ilike.*t-shirt*,name.ilike.*red*)' });
+    expect(toSearchParams(' ,() ')).toEqual({});
+    expect(toSearchParams(undefined)).toEqual({});
+  });
+
+  it('adds the search to product params', () => {
+    expect(toProductQueryParams({ search: 'watch', limit: 20 })).toMatchObject({ name: 'ilike.*watch*', limit: 20 });
   });
 });

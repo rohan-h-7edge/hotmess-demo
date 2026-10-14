@@ -1,7 +1,9 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { useProductPages } from '../../queries/useProductPages';
-import NewInScreen from '../NewInScreen';
+import type { HomeStackScreenProps } from '@/navigation/types';
+import type { CollectionKey } from '../../config/collections';
+import ProductListScreen from '../ProductListScreen';
 
 jest.mock('../../queries/useProductPages', () => ({ useProductPages: jest.fn() }));
 
@@ -44,11 +46,19 @@ const pages = (overrides: object) =>
     ...overrides,
   }) as unknown as ReturnType<typeof useProductPages>;
 
-describe('NewInScreen', () => {
+const renderList = (collection: CollectionKey = 'newIn') => {
+  const props = {
+    navigation: {},
+    route: { key: 'ProductList', name: 'ProductList', params: { collection } },
+  } as unknown as HomeStackScreenProps<'ProductList'>;
+  return render(<ProductListScreen {...props} />);
+};
+
+describe('ProductListScreen', () => {
   it('shows the header, the products with formatted prices and the filter button', async () => {
     jest.mocked(useProductPages).mockReturnValue(pages({ data: [product('1'), product('2')], hasNextPage: true }));
 
-    await render(<NewInScreen />);
+    await renderList();
 
     expect(screen.getByRole('header', { name: 'New In' })).toBeOnTheScreen();
     expect(screen.getByText('Shirt 1')).toBeOnTheScreen();
@@ -60,9 +70,9 @@ describe('NewInScreen', () => {
   it('loads the next page at the end of the list', async () => {
     const result = pages({ data: [product('1')], hasNextPage: true });
     jest.mocked(useProductPages).mockReturnValue(result);
-    await render(<NewInScreen />);
+    await renderList();
 
-    await fireEvent(screen.getByTestId('new-in-list'), 'endReached');
+    await fireEvent(screen.getByTestId('product-list'), 'endReached');
 
     expect(result.fetchNextPage).toHaveBeenCalledTimes(1);
   });
@@ -70,9 +80,9 @@ describe('NewInScreen', () => {
   it('does not load more after the last page and says so', async () => {
     const result = pages({ data: [product('1')], hasNextPage: false });
     jest.mocked(useProductPages).mockReturnValue(result);
-    await render(<NewInScreen />);
+    await renderList();
 
-    await fireEvent(screen.getByTestId('new-in-list'), 'endReached');
+    await fireEvent(screen.getByTestId('product-list'), 'endReached');
 
     expect(result.fetchNextPage).not.toHaveBeenCalled();
     expect(screen.getByText("You've reached the end")).toBeOnTheScreen();
@@ -81,7 +91,7 @@ describe('NewInScreen', () => {
   it('shows the error and retries', async () => {
     const result = pages({ data: undefined, error: new Error('Network error') });
     jest.mocked(useProductPages).mockReturnValue(result);
-    await render(<NewInScreen />);
+    await renderList();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Retry' }));
 
@@ -91,7 +101,7 @@ describe('NewInScreen', () => {
 
   it('adds to the cart and shows what is already in it', async () => {
     jest.mocked(useProductPages).mockReturnValue(pages({ data: [product('1'), product('2')] }));
-    await render(<NewInScreen />);
+    await renderList();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Add to Cart' }));
 
@@ -101,12 +111,20 @@ describe('NewInScreen', () => {
 
   it('saves and unsaves products with the heart', async () => {
     jest.mocked(useProductPages).mockReturnValue(pages({ data: [product('1'), product('2')] }));
-    await render(<NewInScreen />);
+    await renderList();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Add to wishlist' }));
     await fireEvent.press(screen.getByRole('button', { name: 'Remove from wishlist' }));
 
     expect(mockAddToWishlist.mutate).toHaveBeenCalledWith(expect.objectContaining({ productId: '1', typeName: 'Shirts' }));
     expect(mockRemoveFromWishlist.mutate).toHaveBeenCalledWith('2');
+  });
+
+  it('loads the collection it was opened for, with its own heading', async () => {
+    jest.mocked(useProductPages).mockReturnValue(pages({ data: [] }));
+    await renderList('winter');
+
+    expect(useProductPages).toHaveBeenLastCalledWith({ season: 'winter', categorySlug: 'apparel' });
+    expect(screen.getByRole('header', { name: 'Winter Collection' })).toBeOnTheScreen();
   });
 });

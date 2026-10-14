@@ -44,7 +44,10 @@ describe('CartScreen', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Shop Now' }));
 
     expect(screen.getByText('Your cart is empty !')).toBeOnTheScreen();
-    expect(navigation.navigate).toHaveBeenCalledWith('Main', { screen: 'Home', params: { screen: 'NewIn' } });
+    expect(navigation.navigate).toHaveBeenCalledWith('Main', {
+      screen: 'Home',
+      params: { screen: 'ProductList', params: { collection: 'newIn' } },
+    });
   });
 
   it('lists items with line prices and a total of in-stock items', async () => {
@@ -62,6 +65,8 @@ describe('CartScreen', () => {
     await fireEvent.press(screen.getByRole('button', { name: /Quantity: 2/ }));
     await fireEvent.press(screen.getByRole('button', { name: '4' }));
     await fireEvent.press(screen.getByRole('button', { name: 'Remove' }));
+    expect(removeFromCart.mutate).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByRole('button', { name: 'Confirm' }));
 
     expect(updateQuantity.mutate).toHaveBeenCalledWith({ productId: '1', quantity: 4 });
     expect(removeFromCart.mutate).toHaveBeenCalledWith('1');
@@ -92,5 +97,16 @@ describe('CartScreen', () => {
     await fireEvent.press(screen.getByRole('button', { name: 'Move to Wishlist' }));
 
     expect(onMoveToWishlist).toHaveBeenCalledWith(item);
+  });
+
+  it('keeps the item when removal is cancelled', async () => {
+    await renderCart({ data: [item] });
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Remove' }));
+    expect(screen.getByRole('header', { name: 'Remove from Cart ?' })).toBeOnTheScreen();
+    await fireEvent.press(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(removeFromCart.mutate).not.toHaveBeenCalled();
+    expect(screen.queryByRole('header', { name: 'Remove from Cart ?' })).not.toBeOnTheScreen();
   });
 });

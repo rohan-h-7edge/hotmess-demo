@@ -8,16 +8,19 @@ import { moderateScale } from '@/utils/scaling';
 import { Icon } from '../icon';
 
 interface AppHeaderProps {
+  onBackPress?: () => void;
   onSearchPress?: () => void;
   onBagPress?: () => void;
 }
 
-const logoImage = require('@/assets/images/hotmess-logo.svg');
-const searchIcon = require('@/assets/icons/search.svg');
-const bagIcon = require('@/assets/icons/bag.svg');
-const LOGO_ASPECT_RATIO = 182 / 29;
+const logoImage = require('@/assets/images/hotmess-logo.png');
+const backIcon = require('@/assets/icons/arrow-left.svg');
+const searchIcon = require('@/assets/icons/search.png');
+const cartIcon = require('@/assets/icons/cart.png');
+const LOGO_ASPECT_RATIO = 118 / 22;
+const ACTION_ICON_SIZE = moderateScale(32);
 
-export default function AppHeader({ onSearchPress, onBagPress }: AppHeaderProps) {
+export default function AppHeader({ onBackPress, onSearchPress, onBagPress }: AppHeaderProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { top } = useSafeAreaInsets();
@@ -26,17 +29,34 @@ export default function AppHeader({ onSearchPress, onBagPress }: AppHeaderProps)
   return (
     <View style={[styles.statusBarArea, { paddingTop: top }]}>
       <View style={styles.bar}>
-        <Image
-          source={logoImage}
-          style={styles.logo}
-          contentFit="contain"
-          accessible
-          accessibilityRole="header"
-          accessibilityLabel={t('header.logo')}
-        />
+        <View style={styles.brand}>
+          {onBackPress ? (
+            <HeaderButton icon={backIcon} label={t('actions.back')} color={colors.onChrome} onPress={onBackPress} />
+          ) : null}
+          <Image
+            source={logoImage}
+            style={styles.logo}
+            contentFit="contain"
+            accessible
+            accessibilityRole="header"
+            accessibilityLabel={t('header.logo')}
+          />
+        </View>
         <View style={styles.actions}>
-          <HeaderButton icon={searchIcon} label={t('header.search')} color={colors.onChrome} onPress={onSearchPress} />
-          <HeaderButton icon={bagIcon} label={t('header.bag')} color={colors.onChrome} onPress={onBagPress} />
+          <HeaderButton
+            icon={searchIcon}
+            label={t('header.search')}
+            color={colors.onChrome}
+            size={ACTION_ICON_SIZE}
+            onPress={onSearchPress}
+          />
+          <HeaderButton
+            icon={cartIcon}
+            label={t('header.bag')}
+            color={colors.onChrome}
+            size={ACTION_ICON_SIZE}
+            onPress={onBagPress}
+          />
         </View>
       </View>
     </View>
@@ -47,13 +67,14 @@ interface HeaderButtonProps {
   icon: ImageSource | number;
   label: string;
   color: string;
+  size?: number;
   onPress?: () => void;
 }
 
-function HeaderButton({ icon, label, color, onPress }: HeaderButtonProps) {
+function HeaderButton({ icon, label, color, size, onPress }: HeaderButtonProps) {
   return (
     <Pressable accessibilityRole="button" accessibilityLabel={label} hitSlop={spacing.md} onPress={onPress}>
-      <Icon source={icon} color={color} />
+      <Icon source={icon} color={color} size={size} />
     </Pressable>
   );
 }
@@ -74,6 +95,11 @@ const createStyles = (colors: ThemeColors) =>
     logo: {
       height: moderateScale(22),
       aspectRatio: LOGO_ASPECT_RATIO,
+    },
+    brand: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.lg,
     },
     actions: {
       flexDirection: 'row',

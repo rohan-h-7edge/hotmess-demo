@@ -3,7 +3,9 @@ import * as catalog from '..';
 describe('catalog feature public API', () => {
   it('exposes the screen, query hooks and keys', () => {
     expect(Object.keys(catalog).sort()).toEqual([
-      'NewInScreen',
+      'COLLECTIONS',
+      'ProductListScreen',
+      'SearchScreen',
       'catalogKeys',
       'useProductPages',
       'useProducts',

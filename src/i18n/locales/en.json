@@ -3,7 +3,8 @@
   "actions": {
     "retry": "Retry",
     "cancel": "Cancel",
-    "back": "Back"
+    "back": "Back",
+    "confirm": "Confirm"
   },
   "validation": {
     "emailRequired": "Email is required",
@@ -11,7 +12,10 @@
     "passwordRequired": "Password is required",
     "passwordTooShort": "Password must be at least 8 characters",
     "nameTooShort": "Name must be at least 2 characters",
-    "urlInvalid": "Enter a valid URL"
+    "urlInvalid": "Enter a valid URL",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "usernameTooShort": "Username must be at least 3 characters"
   },
   "errors": {
     "timeout": "The request timed out. Please try again.",

@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, PressableProps, StyleProp, StyleSheet, Vi
 import { ColorName, radius, spacing, ThemeColors, useTheme } from '@/theme';
 import { AppText } from '../typography';
 
-type ButtonVariant = 'primary' | 'secondary' | 'inverse';
+type ButtonVariant = 'primary' | 'secondary' | 'inverse' | 'outline';
 
 interface ButtonProps extends Omit<PressableProps, 'style' | 'children'> {
   title: string;
@@ -16,6 +16,7 @@ const labelColors: Record<ButtonVariant, ColorName> = {
   primary: 'onPrimary',
   secondary: 'primary',
   inverse: 'chrome',
+  outline: 'text',
 };
 
 export default function Button({
@@ -76,6 +77,10 @@ const createStyles = (colors: ThemeColors) =>
     },
     inverse: {
       backgroundColor: colors.onMedia,
+    },
+    outline: {
+      borderWidth: 1,
+      borderColor: colors.text,
     },
     pressed: {
       opacity: 0.7,

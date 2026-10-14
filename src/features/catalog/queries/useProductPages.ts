@@ -3,7 +3,7 @@ import { catalogService } from '../services/catalogService';
 import type { ProductQuery } from '../types/catalog.types';
 import { catalogKeys } from './catalogKeys';
 
-export const useProductPages = (query: ProductQuery, pageSize = 20) =>
+export const useProductPages = (query: ProductQuery, pageSize = 20, enabled = true) =>
   useInfiniteQuery({
     queryKey: catalogKeys.productPages(query, pageSize),
     queryFn: ({ pageParam }) => catalogService.getProducts({ ...query, limit: pageSize, offset: pageParam }),
@@ -12,4 +12,5 @@ export const useProductPages = (query: ProductQuery, pageSize = 20) =>
     getNextPageParam: (lastPage, _allPages, lastOffset) =>
       lastPage.length < pageSize ? undefined : lastOffset + pageSize,
     select: (data) => data.pages.flat(),
+    enabled,
   });

@@ -1,4 +1,7 @@
-export { default as NewInScreen } from './screens/NewInScreen';
+export { default as ProductListScreen } from './screens/ProductListScreen';
+export { default as SearchScreen } from './screens/SearchScreen';
+export { COLLECTIONS } from './config/collections';
+export type { CollectionKey } from './config/collections';
 export { catalogKeys } from './queries/catalogKeys';
 export { useProductPages } from './queries/useProductPages';
 export { useProducts } from './queries/useProducts';

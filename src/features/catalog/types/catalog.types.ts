@@ -25,6 +25,7 @@ export interface ProductQuery {
   genders?: ProductGender[];
   categorySlug?: string;
   season?: Season;
+  search?: string;
 }
 
 export interface ProductFilter extends ProductQuery {

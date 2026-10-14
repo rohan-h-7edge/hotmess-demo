@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { AppText } from '@/components/typography';
 import { radius, spacing, ThemeColors, useTheme } from '@/theme';
@@ -7,14 +7,15 @@ import { radius, spacing, ThemeColors, useTheme } from '@/theme';
 interface CollectionTileProps {
   label: string;
   imageUrl?: string;
+  onPress: () => void;
 }
 
-export default function CollectionTile({ label, imageUrl }: CollectionTileProps) {
+export default function CollectionTile({ label, imageUrl, onPress }: CollectionTileProps) {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
   return (
-    <View style={styles.tile}>
+    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={styles.tile}>
       {imageUrl ? (
         <Image
           source={{ uri: imageUrl }}
@@ -28,7 +29,7 @@ export default function CollectionTile({ label, imageUrl }: CollectionTileProps)
       <AppText variant="body" color="onMedia" style={styles.label}>
         {label}
       </AppText>
-    </View>
+    </Pressable>
   );
 }
 

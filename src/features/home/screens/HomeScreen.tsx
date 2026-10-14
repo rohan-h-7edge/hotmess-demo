@@ -22,6 +22,7 @@ export default function HomeScreen({ navigation }: HomeStackScreenProps<'HomeMai
               key={collection.key}
               label={t(`collections.${collection.key}`)}
               imageUrl={collection.imageUrl}
+              onPress={() => navigation.navigate('ProductList', { collection: collection.key })}
             />
           ))}
         </View>
@@ -31,6 +32,7 @@ export default function HomeScreen({ navigation }: HomeStackScreenProps<'HomeMai
             tagline={t('banner.tagline')}
             ctaLabel={t('banner.cta')}
             imageUrl={bannerImageUrl}
+            onPress={() => navigation.navigate('ProductList', { collection: 'winter' })}
           />
         </View>
         <NewInSection
@@ -38,7 +40,7 @@ export default function HomeScreen({ navigation }: HomeStackScreenProps<'HomeMai
           isLoading={newIn.isLoading}
           errorMessage={newIn.errorMessage}
           onRetry={newIn.retry}
-          onViewAll={() => navigation.navigate('NewIn')}
+          onViewAll={() => navigation.navigate('ProductList', { collection: 'newIn' })}
         />
       </ScrollView>
     </SafeAreaScreen>
