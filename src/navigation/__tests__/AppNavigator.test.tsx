@@ -67,4 +67,20 @@ describe('AppNavigator', () => {
 
     expect(await screen.findByPlaceholderText('Search products')).toBeOnTheScreen();
   });
+
+  it('keeps the splash up until the saved session is restored', async () => {
+    useUserStore.setState({ hasRestoredSession: false });
+    await renderWithProviders(<AppNavigator />);
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    expect(screen.getByRole('progressbar', { name: 'Loading' })).toBeOnTheScreen();
+
+    await act(async () => {
+      useUserStore.setState({ hasRestoredSession: true });
+    });
+
+    expect(await screen.findByRole('header', { name: 'Welcome Back' })).toBeOnTheScreen();
+  });
 });

@@ -6,7 +6,7 @@ describe('useAuth', () => {
   it('is signed in while a token is stored and signs out', async () => {
     useUserStore.setState({ currentUserId: '1', accessToken: 't1' });
     const { result } = await renderHook(() => useAuth());
-    expect(result.current).toMatchObject({ isAuthenticated: true, currentUserId: '1' });
+    expect(result.current).toMatchObject({ isAuthenticated: true, currentUserId: '1', hasRestoredSession: true });
 
     await act(async () => {
       result.current.signOut();

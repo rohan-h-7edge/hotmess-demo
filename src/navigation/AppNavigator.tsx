@@ -17,11 +17,12 @@ const screenOptions = { headerShown: false };
 
 export default function AppNavigator() {
   const navigationTheme = useNavigationTheme();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, hasRestoredSession } = useAuth();
   const [isSplashDone, setIsSplashDone] = useState(false);
 
   const renderScreens = () => {
-    if (!isSplashDone) {
+    // Waiting for the saved session too, so a signed-in user never sees Login flash by.
+    if (!isSplashDone || !hasRestoredSession) {
       return <Stack.Screen name="Splash">{() => <SplashScreen onFinish={() => setIsSplashDone(true)} />}</Stack.Screen>;
     }
     if (isAuthenticated) {
