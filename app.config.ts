@@ -73,7 +73,16 @@ export default {
     },
   },
   plugins: [
-    "expo-font",
+    [
+      "expo-font",
+      {
+        fonts: [
+          "./src/assets/fonts/Poppins-Regular.ttf",
+          "./src/assets/fonts/Poppins-Medium.ttf",
+          "./src/assets/fonts/Poppins-SemiBold.ttf",
+        ],
+      },
+    ],
     "expo-image",
     "expo-localization",
     "expo-status-bar",

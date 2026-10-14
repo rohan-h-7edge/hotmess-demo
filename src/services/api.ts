@@ -13,16 +13,36 @@ export class ApiError extends Error {
   }
 }
 
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    skipAuthRefresh?: boolean;
+    authRetried?: boolean;
+  }
+}
+
 interface ApiAuthOptions {
   getAuthToken?: () => string | null | undefined;
+  refreshAuthToken?: () => Promise<string | null>;
   onUnauthorized?: () => void;
 }
 
 // Injected from App.tsx so the HTTP layer never imports a feature.
 let authOptions: ApiAuthOptions = {};
 
+let refreshInFlight: Promise<string | null> | null = null;
+
 export const configureApi = (options: ApiAuthOptions) => {
   authOptions = options;
+};
+
+// Parallel 401s share one refresh call instead of each spending the refresh token.
+const refreshAuthTokenOnce = () => {
+  refreshInFlight ??= (authOptions.refreshAuthToken?.() ?? Promise.resolve(null))
+    .catch(() => null)
+    .finally(() => {
+      refreshInFlight = null;
+    });
+  return refreshInFlight;
 };
 
 export const http = axios.create({
@@ -58,7 +78,14 @@ const toApiError = (error: AxiosError): ApiError => {
 
 http.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
+    const config = error.config;
+    if (error.response?.status === 401 && config && !config.skipAuthRefresh && !config.authRetried) {
+      config.authRetried = true;
+      if (await refreshAuthTokenOnce()) {
+        return http.request(config);
+      }
+    }
     if (error.response?.status === 401) {
       authOptions.onUnauthorized?.();
     }

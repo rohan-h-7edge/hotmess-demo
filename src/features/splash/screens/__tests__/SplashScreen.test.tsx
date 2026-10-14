@@ -18,9 +18,9 @@ describe('SplashScreen', () => {
     expect(screen.getByRole('progressbar', { name: 'Loading' })).toBeOnTheScreen();
   });
 
-  it('opens the main tabs when loading finishes', async () => {
+  it('opens the login screen when loading finishes', async () => {
     const navigation = await renderSplash();
 
-    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('Main', { screen: 'Home' }));
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('Login'));
   });
 });

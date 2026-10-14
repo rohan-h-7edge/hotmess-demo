@@ -7,6 +7,8 @@ export type TabParamList = {
 
 export type RootStackParamList = {
   Splash: undefined;
+  Login: { registeredUsername?: string } | undefined;
+  Register: undefined;
   Main: NavigatorScreenParams<TabParamList>;
 };
 

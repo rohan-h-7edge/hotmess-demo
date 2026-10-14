@@ -1,0 +1,30 @@
+{
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to continue to Hotmess",
+    "submit": "Sign In",
+    "noAccount": "Don't have an account?",
+    "goToRegister": "Register",
+    "registered": "Account created for {{username}}. Sign in to continue."
+  },
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Join Hotmess in a few steps",
+    "submit": "Register",
+    "haveAccount": "Already have an account?",
+    "goToLogin": "Sign In"
+  },
+  "fields": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password"
+  },
+  "validation": {
+    "usernameRequired": "Username is required",
+    "usernameTooShort": "Username must be at least 3 characters",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required"
+  }
+}

@@ -6,10 +6,11 @@ type Reply = { status: number; data?: unknown } | { error: 'timeout' | 'network'
 
 let requests: InternalAxiosRequestConfig[] = [];
 
-const respondWith = (reply: Reply) => {
+const respondWith = (...replies: Reply[]) => {
   requests = [];
   http.defaults.adapter = async (config) => {
     requests.push(config);
+    const reply = replies[Math.min(requests.length, replies.length) - 1];
     if ('error' in reply) {
       throw new AxiosError('failed', reply.error === 'timeout' ? 'ECONNABORTED' : 'ERR_NETWORK', config);
     }
@@ -61,5 +62,39 @@ describe('api', () => {
 
     respondWith({ error: 'network' });
     await expect(api.get('/x')).rejects.toMatchObject({ message: 'Network error. Check your connection and try again.' });
+  });
+
+  it('refreshes the token once on 401 and retries the request', async () => {
+    let token = 'old';
+    const refreshAuthToken = jest.fn(async () => {
+      token = 'new';
+      return token;
+    });
+    const onUnauthorized = jest.fn();
+    configureApi({ getAuthToken: () => token, refreshAuthToken, onUnauthorized });
+    respondWith({ status: 401 }, { status: 200, data: { id: '1' } });
+
+    await expect(api.get('/me')).resolves.toEqual({ id: '1' });
+    expect(refreshAuthToken).toHaveBeenCalledTimes(1);
+    expect(requests.map((request) => request.headers.Authorization)).toEqual(['Bearer old', 'Bearer new']);
+    expect(onUnauthorized).not.toHaveBeenCalled();
+  });
+
+  it('signs out when the refresh fails', async () => {
+    const onUnauthorized = jest.fn();
+    configureApi({ refreshAuthToken: jest.fn().mockRejectedValue(new Error('expired')), onUnauthorized });
+    respondWith({ status: 401, data: { message: 'Token expired' } });
+
+    await expect(api.get('/me')).rejects.toMatchObject({ status: 401, message: 'Token expired' });
+    expect(onUnauthorized).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not refresh for requests that opt out', async () => {
+    const refreshAuthToken = jest.fn();
+    configureApi({ refreshAuthToken });
+    respondWith({ status: 401 });
+
+    await expect(api.post('/auth/login', {}, { skipAuthRefresh: true })).rejects.toMatchObject({ status: 401 });
+    expect(refreshAuthToken).not.toHaveBeenCalled();
   });
 });

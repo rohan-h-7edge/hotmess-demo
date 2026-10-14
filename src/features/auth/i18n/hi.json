@@ -1,0 +1,30 @@
+{
+  "login": {
+    "title": "फिर से स्वागत है",
+    "subtitle": "Hotmess पर जारी रखने के लिए साइन इन करें",
+    "submit": "साइन इन करें",
+    "noAccount": "खाता नहीं है?",
+    "goToRegister": "रजिस्टर करें",
+    "registered": "{{username}} के लिए खाता बन गया। जारी रखने के लिए साइन इन करें।"
+  },
+  "register": {
+    "title": "खाता बनाएं",
+    "subtitle": "कुछ ही चरणों में Hotmess से जुड़ें",
+    "submit": "रजिस्टर करें",
+    "haveAccount": "पहले से खाता है?",
+    "goToLogin": "साइन इन करें"
+  },
+  "fields": {
+    "firstName": "पहला नाम",
+    "lastName": "उपनाम",
+    "email": "ईमेल",
+    "username": "यूज़रनेम",
+    "password": "पासवर्ड"
+  },
+  "validation": {
+    "usernameRequired": "यूज़रनेम आवश्यक है",
+    "usernameTooShort": "यूज़रनेम कम से कम 3 अक्षरों का होना चाहिए",
+    "firstNameRequired": "पहला नाम आवश्यक है",
+    "lastNameRequired": "उपनाम आवश्यक है"
+  }
+}

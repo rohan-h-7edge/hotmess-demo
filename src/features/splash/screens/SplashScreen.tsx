@@ -17,13 +17,13 @@ const logoImage = require('@/assets/images/hotmess-frame.svg');
 export default function SplashScreen({ navigation }: RootStackScreenProps<'Splash'>) {
   const { t } = useTranslation('splash');
 
-  const openMain = () => navigation.replace('Main', { screen: 'Home' });
+  const openLogin = () => navigation.replace('Login');
 
   return (
-    <SafeAreaScreen>
-      <StatusBar style="light" />
+    <SafeAreaScreen style={styles.screen}>
+      <StatusBar style="dark" />
       <Image source={backgroundImage} style={StyleSheet.absoluteFill} contentFit="cover" />
-      <View style={styles.logoContainer}>
+      <View style={styles.logoLayer}>
         <Image
           source={logoImage}
           style={styles.logo}
@@ -36,7 +36,7 @@ export default function SplashScreen({ navigation }: RootStackScreenProps<'Splas
         <SplashProgressBar
           durationMs={SPLASH_DURATION_MS}
           accessibilityLabel={t('loading')}
-          onComplete={openMain}
+          onComplete={openLogin}
         />
       </View>
     </SafeAreaScreen>
@@ -44,8 +44,11 @@ export default function SplashScreen({ navigation }: RootStackScreenProps<'Splas
 }
 
 const styles = StyleSheet.create({
-  logoContainer: {
-    flex: 1,
+  screen: {
+    justifyContent: 'flex-end',
+  },
+  logoLayer: {
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
   },

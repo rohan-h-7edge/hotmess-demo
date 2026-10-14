@@ -2,14 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getLocales } from 'expo-localization';
+import { authTranslations } from '@/features/auth/i18n';
 import { homeTranslations } from '@/features/home/i18n';
 import { splashTranslations } from '@/features/splash/i18n';
 import en from './locales/en.json';
 import hi from './locales/hi.json';
 
 export const resources = {
-  en: { common: en, home: homeTranslations.en, splash: splashTranslations.en },
-  hi: { common: hi satisfies typeof en, home: homeTranslations.hi, splash: splashTranslations.hi },
+  en: { common: en, home: homeTranslations.en, splash: splashTranslations.en, auth: authTranslations.en },
+  hi: { common: hi satisfies typeof en, home: homeTranslations.hi, splash: splashTranslations.hi, auth: authTranslations.hi },
 };
 
 export type Language = keyof typeof resources;
