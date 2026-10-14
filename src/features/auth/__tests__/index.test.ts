@@ -9,6 +9,7 @@ describe('auth feature public API', () => {
       'RegisterScreen',
       'refreshSession',
       'useLogin',
+      'useLogout',
       'useRegister',
     ]);
   });

@@ -4,7 +4,6 @@ import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaScreen } from '@/components/common';
-import type { RootStackScreenProps } from '@/navigation/types';
 import { verticalScale } from '@/utils/scaling';
 import SplashProgressBar from '../components/SplashProgressBar';
 
@@ -14,10 +13,12 @@ const LOGO_ASPECT_RATIO = 182 / 53;
 const backgroundImage = require('@/assets/images/splash-screen.jpg');
 const logoImage = require('@/assets/images/hotmess-frame.svg');
 
-export default function SplashScreen({ navigation }: RootStackScreenProps<'Splash'>) {
-  const { t } = useTranslation('splash');
+interface SplashScreenProps {
+  onFinish: () => void;
+}
 
-  const openLogin = () => navigation.replace('Login');
+export default function SplashScreen({ onFinish }: SplashScreenProps) {
+  const { t } = useTranslation('splash');
 
   return (
     <SafeAreaScreen style={styles.screen}>
@@ -36,7 +37,7 @@ export default function SplashScreen({ navigation }: RootStackScreenProps<'Splas
         <SplashProgressBar
           durationMs={SPLASH_DURATION_MS}
           accessibilityLabel={t('loading')}
-          onComplete={openLogin}
+          onComplete={onFinish}
         />
       </View>
     </SafeAreaScreen>

@@ -7,6 +7,7 @@ import { spacing } from '@/theme';
 import type { FieldErrors } from '@/utils/validation';
 import type { LoginInput } from '../types/auth.types';
 import FormError from './FormError';
+import PasswordInput from './PasswordInput';
 
 interface LoginFormProps {
   values: LoginInput;
@@ -38,14 +39,13 @@ export default function LoginForm({ values, errors, submitError, isSubmitting, o
         submitBehavior="submit"
         onSubmitEditing={() => passwordRef.current?.focus()}
       />
-      <Input
+      <PasswordInput
         ref={passwordRef}
         value={values.password}
         onChangeText={(text) => onChangeField('password', text)}
         error={errors.password}
         placeholder={t('fields.password')}
         accessibilityLabel={t('fields.password')}
-        secureTextEntry
         autoCapitalize="none"
         autoComplete="current-password"
         textContentType="password"

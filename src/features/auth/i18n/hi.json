@@ -26,5 +26,9 @@
     "usernameTooShort": "यूज़रनेम कम से कम 3 अक्षरों का होना चाहिए",
     "firstNameRequired": "पहला नाम आवश्यक है",
     "lastNameRequired": "उपनाम आवश्यक है"
+  },
+  "password": {
+    "show": "पासवर्ड दिखाएं",
+    "hide": "पासवर्ड छिपाएं"
   }
 }

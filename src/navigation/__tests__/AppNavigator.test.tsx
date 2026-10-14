@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react-native';
+import { act, screen } from '@testing-library/react-native';
 import { useUserStore } from '@/features/user';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import AppNavigator from '../AppNavigator';
@@ -14,11 +14,24 @@ describe('AppNavigator', () => {
     expect(screen.queryByRole('progressbar', { name: 'Loading' })).not.toBeOnTheScreen();
   });
 
-  it('opens the Home tab when signed in', async () => {
-    useUserStore.getState().signIn('1', 't1', 'r1');
+  it('moves from the splash screen to Home when signed in', async () => {
+    useUserStore.getState().signIn('u-1', 'a1', 'r1');
 
     await renderWithProviders(<AppNavigator />);
 
-    expect(screen.getByText('Environment Variables:')).toBeOnTheScreen();
+    expect(await screen.findByText('Environment Variables:')).toBeOnTheScreen();
+  });
+
+  it('goes straight to login after signing out, without the splash', async () => {
+    useUserStore.getState().signIn('u-1', 'a1', 'r1');
+    await renderWithProviders(<AppNavigator />);
+    await screen.findByText('Environment Variables:');
+
+    await act(async () => {
+      useUserStore.getState().signOut();
+    });
+
+    expect(screen.getByRole('header', { name: 'Welcome Back' })).toBeOnTheScreen();
+    expect(screen.queryByRole('progressbar', { name: 'Loading' })).not.toBeOnTheScreen();
   });
 });

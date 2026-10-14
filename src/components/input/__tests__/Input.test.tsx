@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { TextInput } from 'react-native';
+import { Text, TextInput } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import Input from '../Input';
 
@@ -24,5 +24,11 @@ describe('Input', () => {
     await render(<Input ref={ref} value="" onChangeText={jest.fn()} />);
 
     expect(ref.current?.focus).toEqual(expect.any(Function));
+  });
+
+  it('renders trailing content inside the field', async () => {
+    await render(<Input value="" onChangeText={jest.fn()} trailing={<Text>Show</Text>} />);
+
+    expect(screen.getByText('Show')).toBeOnTheScreen();
   });
 });

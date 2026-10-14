@@ -1,6 +1,7 @@
 export { default as LoginScreen } from './screens/LoginScreen';
 export { default as RegisterScreen } from './screens/RegisterScreen';
 export { useLogin } from './queries/useLogin';
+export { useLogout } from './queries/useLogout';
 export { useRegister } from './queries/useRegister';
 export { refreshSession } from './session/refreshSession';
 export { LoginSchema, RegisterSchema } from './types/auth.types';

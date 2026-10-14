@@ -11,7 +11,7 @@ export default function HomeScreen() {
   const { t } = useTranslation('home');
 
   return (
-    <SafeAreaScreen>
+    <SafeAreaScreen edges={[]}>
       <ScrollView contentContainerStyle={styles.content}>
         <AppText variant="title" style={styles.title}>
           {t('title')}

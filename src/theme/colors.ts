@@ -11,6 +11,9 @@ export const lightColors = {
   warning: '#B25000',
   onMedia: '#FFFFFF',
   onMediaMuted: 'rgba(255, 255, 255, 0.4)',
+  chrome: '#222222',
+  onChrome: '#FFFFFF',
+  onChromeMuted: '#8E8E8E',
 };
 
 export type ThemeColors = typeof lightColors;
@@ -29,4 +32,7 @@ export const darkColors: ThemeColors = {
   warning: '#FF9F0A',
   onMedia: '#FFFFFF',
   onMediaMuted: 'rgba(255, 255, 255, 0.4)',
+  chrome: '#222222',
+  onChrome: '#FFFFFF',
+  onChromeMuted: '#8E8E8E',
 };

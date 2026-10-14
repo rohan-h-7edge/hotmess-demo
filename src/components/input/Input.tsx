@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import React, { ReactNode, Ref } from 'react';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 import { radius, spacing, ThemeColors, typography, useTheme } from '@/theme';
 import { AppText } from '../typography';
@@ -9,19 +9,19 @@ interface InputProps extends Omit<TextInputProps, 'style'> {
   onChangeText: (text: string) => void;
   error?: string;
   errorTestID?: string;
+  trailing?: ReactNode;
 }
 
-export default function Input({ error, errorTestID, ...inputProps }: InputProps) {
+export default function Input({ error, errorTestID, trailing, ...inputProps }: InputProps) {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={[styles.input, error ? styles.inputError : undefined]}
-        placeholderTextColor={colors.textSecondary}
-        {...inputProps}
-      />
+      <View style={[styles.field, error ? styles.fieldError : undefined]}>
+        <TextInput style={styles.input} placeholderTextColor={colors.textSecondary} {...inputProps} />
+        {trailing ? <View style={styles.trailing}>{trailing}</View> : null}
+      </View>
       {error ? (
         <AppText testID={errorTestID} variant="caption" color="error" style={styles.errorText}>
           {error}
@@ -36,18 +36,26 @@ const createStyles = (colors: ThemeColors) =>
     container: {
       marginBottom: spacing.md,
     },
-    input: {
-      ...typography.body,
-      color: colors.text,
+    field: {
+      flexDirection: 'row',
+      alignItems: 'center',
       backgroundColor: colors.surface,
       borderWidth: 1,
       borderColor: colors.border,
       borderRadius: radius.md,
+    },
+    fieldError: {
+      borderColor: colors.error,
+    },
+    input: {
+      ...typography.body,
+      flex: 1,
+      color: colors.text,
       paddingVertical: spacing.md,
       paddingHorizontal: spacing.md,
     },
-    inputError: {
-      borderColor: colors.error,
+    trailing: {
+      paddingRight: spacing.md,
     },
     errorText: {
       marginTop: spacing.xs,

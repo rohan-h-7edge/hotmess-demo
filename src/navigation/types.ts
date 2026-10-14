@@ -3,6 +3,9 @@ import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-n
 
 export type TabParamList = {
   Home: undefined;
+  Wishlist: undefined;
+  Editorials: undefined;
+  Profile: undefined;
 };
 
 export type RootStackParamList = {

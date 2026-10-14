@@ -32,6 +32,16 @@ describe('authService', () => {
     );
   });
 
+  it('logs out of this device', async () => {
+    jest.mocked(api.post).mockResolvedValue(undefined);
+
+    await expect(authService.logout()).resolves.toBeUndefined();
+    expect(api.post).toHaveBeenCalledWith('/auth/v1/logout', undefined, {
+      params: { scope: 'local' },
+      skipAuthRefresh: true,
+    });
+  });
+
   it('signs up a user', async () => {
     const input = { firstName: 'Ana', lastName: 'Ray', email: 'ana@x.co', username: 'anaray', password: 'secret123' };
     jest.mocked(api.post).mockResolvedValue({ id: 'u-1', email: 'ana@x.co' });

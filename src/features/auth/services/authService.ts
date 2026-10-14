@@ -23,6 +23,10 @@ export const authService = {
       await api.post('/auth/v1/token', toRefreshTokenGrantRequest(refreshToken), tokenGrant('refresh_token'))
     ),
 
+  logout: async (): Promise<void> => {
+    await api.post('/auth/v1/logout', undefined, { params: { scope: 'local' }, skipAuthRefresh: true });
+  },
+
   register: async (input: RegisterInput): Promise<RegisteredUser> =>
     toRegisteredUser(await api.post('/auth/v1/signup', toSignUpRequest(input), { skipAuthRefresh: true })),
 };
