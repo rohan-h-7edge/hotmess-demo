@@ -414,6 +414,198 @@ Each feature folder contains what it needs from `screens/`, `components/`, `quer
 | `profile` | Profile, language switch, edit profile, sign out |
 | `editorials` | Placeholder tab |
 
+<details>
+<summary>Feature tree</summary>
+
+Inside a feature, `screens/` and `components/` are the UI, `queries/` the React Query hooks, `services/` the HTTP calls, `acl/` the backend DTOs and mappers, `types/` the app models, `hooks/` the feature's logic hooks and `i18n/` its strings. A feature only has the folders it needs. Each code folder also has a `__tests__/` folder, left out here.
+
+```
+src/features
+├── auth
+│   ├── acl
+│   │   ├── auth.dto.ts
+│   │   └── authMapper.ts
+│   ├── components
+│   │   ├── AuthFooterLink.tsx
+│   │   ├── AuthHeader.tsx
+│   │   ├── AuthLayout.tsx
+│   │   ├── FormError.tsx
+│   │   ├── LoginForm.tsx
+│   │   ├── PasswordInput.tsx
+│   │   └── RegisterForm.tsx
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── queries
+│   │   ├── useLogin.ts
+│   │   ├── useLogout.ts
+│   │   └── useRegister.ts
+│   ├── screens
+│   │   ├── LoginScreen.tsx
+│   │   └── RegisterScreen.tsx
+│   ├── services
+│   │   └── authService.ts
+│   ├── session
+│   │   └── refreshSession.ts
+│   ├── types
+│   │   └── auth.types.ts
+│   └── index.ts
+├── cart
+│   ├── acl
+│   │   ├── cart.dto.ts
+│   │   └── cartMapper.ts
+│   ├── components
+│   │   ├── CartItemCard.tsx
+│   │   ├── CheckoutBar.tsx
+│   │   ├── CouponRow.tsx
+│   │   ├── EmptyCart.tsx
+│   │   ├── OrderDetails.tsx
+│   │   └── QuantityPicker.tsx
+│   ├── hooks
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── queries
+│   │   ├── cartKeys.ts
+│   │   ├── useAddToCart.ts
+│   │   ├── useCart.ts
+│   │   ├── useRemoveFromCart.ts
+│   │   └── useUpdateCartQuantity.ts
+│   ├── screens
+│   │   └── CartScreen.tsx
+│   ├── services
+│   │   └── cartService.ts
+│   ├── types
+│   │   └── cart.types.ts
+│   ├── utils
+│   │   └── cartTotal.ts
+│   └── index.ts
+├── catalog
+│   ├── acl
+│   │   ├── catalog.dto.ts
+│   │   └── catalogMapper.ts
+│   ├── components
+│   │   ├── FilterButton.tsx
+│   │   ├── PopularSearches.tsx
+│   │   └── SearchBar.tsx
+│   ├── config
+│   │   └── collections.ts
+│   ├── hooks
+│   │   ├── useDebouncedValue.ts
+│   │   └── useProductCardActions.ts
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── queries
+│   │   ├── catalogKeys.ts
+│   │   ├── useProductPages.ts
+│   │   ├── useProducts.ts
+│   │   └── useTopCategories.ts
+│   ├── screens
+│   │   ├── ProductListScreen.tsx
+│   │   └── SearchScreen.tsx
+│   ├── services
+│   │   └── catalogService.ts
+│   ├── types
+│   │   └── catalog.types.ts
+│   └── index.ts
+├── editorials
+│   ├── components
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── screens
+│   │   └── EditorialsScreen.tsx
+│   └── index.ts
+├── home
+│   ├── components
+│   │   ├── CollectionTile.tsx
+│   │   ├── NewInSection.tsx
+│   │   ├── ProductCard.tsx
+│   │   └── PromoBanner.tsx
+│   ├── hooks
+│   │   └── useHomeCatalog.ts
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── screens
+│   │   └── HomeScreen.tsx
+│   └── index.ts
+├── profile
+│   ├── components
+│   │   ├── LanguageSwitch.tsx
+│   │   ├── MenuRow.tsx
+│   │   ├── MenuSection.tsx
+│   │   └── ProfileHeader.tsx
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── screens
+│   │   ├── EditProfileScreen.tsx
+│   │   └── ProfileScreen.tsx
+│   └── index.ts
+├── splash
+│   ├── components
+│   │   └── SplashProgressBar.tsx
+│   ├── i18n
+│   │   ├── en.json
+│   │   ├── hi.json
+│   │   └── index.ts
+│   ├── screens
+│   │   └── SplashScreen.tsx
+│   └── index.ts
+├── user
+│   ├── acl
+│   │   ├── user.dto.ts
+│   │   └── userMapper.ts
+│   ├── components
+│   ├── hooks
+│   │   └── useAuth.ts
+│   ├── queries
+│   │   ├── userKeys.ts
+│   │   ├── useUpdateProfile.ts
+│   │   └── useUserProfile.ts
+│   ├── services
+│   │   └── userService.ts
+│   ├── store
+│   │   └── userStore.ts
+│   ├── types
+│   │   └── user.types.ts
+│   └── index.ts
+└── wishlist
+    ├── acl
+    │   ├── wishlist.dto.ts
+    │   └── wishlistMapper.ts
+    ├── components
+    │   └── EmptyWishlist.tsx
+    ├── hooks
+    │   └── useMoveToWishlist.ts
+    ├── i18n
+    │   ├── en.json
+    │   ├── hi.json
+    │   └── index.ts
+    ├── queries
+    │   ├── useAddToWishlist.ts
+    │   ├── useRemoveFromWishlist.ts
+    │   ├── useWishlist.ts
+    │   └── wishlistKeys.ts
+    ├── screens
+    │   └── WishlistScreen.tsx
+    ├── services
+    │   └── wishlistService.ts
+    ├── types
+    │   └── wishlist.types.ts
+    └── index.ts
+```
+
+</details>
+
 ### Navigation
 
 ```
