@@ -19,7 +19,8 @@ describe('catalogService', () => {
     await expect(catalogService.getProducts({ genders: ['women'], limit: 10 })).resolves.toEqual([]);
     expect(api.get).toHaveBeenCalledWith('/rest/v1/products', {
       params: {
-        select: 'id,name,gender,category_id,price,currency,image_path',
+        select:
+          'id,name,gender,category_id,price,currency,image_path,base_colour,category:categories!inner(slug,name)',
         order: 'year.desc.nullslast,id.desc',
         limit: 10,
         gender: 'in.(women)',

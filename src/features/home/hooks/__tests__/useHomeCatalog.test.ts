@@ -9,6 +9,8 @@ const product = (id: string) => ({
   name: `Product ${id}`,
   gender: 'women' as const,
   categoryId: '1',
+  categoryName: 'Tops',
+  colour: 'Red',
   price: 999,
   currency: 'INR',
   imageUrl: `https://img/${id}.jpg`,

@@ -1,7 +1,8 @@
-import { renderHook, waitFor } from '@testing-library/react-native';
+import { act, renderHook, waitFor } from '@testing-library/react-native';
 import { createQueryWrapper } from '@/test-utils/renderWithProviders';
 import { catalogService } from '../../services/catalogService';
 import { catalogKeys } from '../catalogKeys';
+import { useProductPages } from '../useProductPages';
 import { useProducts } from '../useProducts';
 import { useTopCategories } from '../useTopCategories';
 
@@ -14,6 +15,8 @@ const product = {
   name: 'Navy Shirt',
   gender: 'men' as const,
   categoryId: '7',
+  categoryName: 'Tops',
+  colour: 'Red',
   price: 1299,
   currency: 'INR',
   imageUrl: 'https://x/1.jpg',
@@ -39,5 +42,26 @@ describe('catalog queries', () => {
 
     await waitFor(() => expect(result.current.data).toEqual([product]));
     expect(catalogService.getProducts).toHaveBeenCalledWith(filter);
+  });
+
+  it('pages through products until a short page and flattens them', async () => {
+    const page = (start: number, count: number) =>
+      Array.from({ length: count }, (_, index) => ({ ...product, id: String(start + index) }));
+    jest
+      .mocked(catalogService.getProducts)
+      .mockResolvedValueOnce(page(0, 2))
+      .mockResolvedValueOnce(page(2, 1));
+    const { result } = await renderHook(() => useProductPages({ categorySlug: 'apparel' }, 2), {
+      wrapper: createQueryWrapper(),
+    });
+    await waitFor(() => expect(result.current.data).toHaveLength(2));
+
+    await act(async () => {
+      await result.current.fetchNextPage();
+    });
+
+    await waitFor(() => expect(result.current.data?.map((item) => item.id)).toEqual(['0', '1', '2']));
+    expect(result.current.hasNextPage).toBe(false);
+    expect(catalogService.getProducts).toHaveBeenLastCalledWith({ categorySlug: 'apparel', limit: 2, offset: 2 });
   });
 });

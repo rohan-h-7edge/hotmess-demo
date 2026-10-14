@@ -5,6 +5,7 @@ import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import AppNavigator from '../AppNavigator';
 
 jest.mock('@/features/catalog', () => ({
+  ...jest.requireActual('@/features/catalog'),
   useProducts: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
 }));
 

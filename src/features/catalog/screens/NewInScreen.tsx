@@ -54,6 +54,7 @@ export default function NewInScreen() {
   return (
     <SafeAreaScreen edges={[]}>
       <FlatList
+        testID="new-in-list"
         data={products.data}
         keyExtractor={(product) => product.id}
         numColumns={2}
