@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 import { radius, spacing, ThemeColors, typography, useTheme } from '@/theme';
 import { AppText } from '../typography';
 
 interface InputProps extends Omit<TextInputProps, 'style'> {
+  ref?: Ref<TextInput>;
   value: string;
   onChangeText: (text: string) => void;
   error?: string;

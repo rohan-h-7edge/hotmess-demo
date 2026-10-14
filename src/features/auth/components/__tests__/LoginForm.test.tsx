@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextInput } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import LoginForm from '../LoginForm';
 
@@ -33,5 +34,17 @@ describe('LoginForm', () => {
 
     expect(screen.getByText('Username is required')).toBeOnTheScreen();
     expect(screen.getByRole('alert')).toHaveTextContent('Invalid credentials');
+  });
+
+  it('moves to the password field on Next and submits on Go', async () => {
+    const focus = jest.spyOn(TextInput.prototype, 'focus');
+    const { onSubmit } = await renderForm();
+
+    await fireEvent(screen.getByPlaceholderText('Username'), 'submitEditing');
+    expect(focus).toHaveBeenCalledTimes(1);
+
+    await fireEvent(screen.getByPlaceholderText('Password'), 'submitEditing');
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    focus.mockClear();
   });
 });

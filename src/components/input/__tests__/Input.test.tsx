@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { createRef } from 'react';
+import { TextInput } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import Input from '../Input';
 
@@ -16,5 +17,12 @@ describe('Input', () => {
     await render(<Input value="" onChangeText={jest.fn()} error="Email is required" errorTestID="email-error" />);
 
     expect(screen.getByTestId('email-error')).toHaveTextContent('Email is required');
+  });
+
+  it('forwards its ref to the text input', async () => {
+    const ref = createRef<TextInput>();
+    await render(<Input ref={ref} value="" onChangeText={jest.fn()} />);
+
+    expect(ref.current?.focus).toEqual(expect.any(Function));
   });
 });

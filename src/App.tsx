@@ -1,6 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { refreshSession } from '@/features/auth';
 import { useUserStore } from '@/features/user';
 import { restoreSavedLanguage } from '@/i18n';
@@ -25,10 +24,8 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <KeyboardProvider>
-        <AppNavigator />
-        <StatusBar style="auto" />
-      </KeyboardProvider>
+      <AppNavigator />
+      <StatusBar style="auto" />
     </QueryClientProvider>
   );
 }

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaScreen } from '@/components/common';
 import { spacing } from '@/theme';
 
@@ -8,11 +7,18 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
+// Android resizes natively (plugins/withAndroidImeInsets), so only iOS needs the avoiding view.
+const avoidsKeyboard = Platform.OS === 'ios';
+
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <SafeAreaScreen>
-      <KeyboardAvoidingView behavior="padding" style={styles.keyboard}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView behavior="padding" enabled={avoidsKeyboard} style={styles.fill}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardDismissMode="none"
+          keyboardShouldPersistTaps="handled"
+        >
           {children}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -21,7 +27,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 }
 
 const styles = StyleSheet.create({
-  keyboard: {
+  fill: {
     flex: 1,
   },
   content: {

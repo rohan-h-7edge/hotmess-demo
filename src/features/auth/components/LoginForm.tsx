@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useRef } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
@@ -19,6 +19,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ values, errors, submitError, isSubmitting, onChangeField, onSubmit }: LoginFormProps) {
   const { t } = useTranslation('auth');
+  const passwordRef = useRef<TextInput>(null);
 
   return (
     <View>
@@ -33,8 +34,11 @@ export default function LoginForm({ values, errors, submitError, isSubmitting, o
         autoComplete="username"
         textContentType="username"
         returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => passwordRef.current?.focus()}
       />
       <Input
+        ref={passwordRef}
         value={values.password}
         onChangeText={(text) => onChangeField('password', text)}
         error={errors.password}

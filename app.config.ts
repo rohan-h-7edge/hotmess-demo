@@ -84,6 +84,7 @@ export default {
       },
     ],
     "expo-image",
+    "./plugins/withAndroidImeInsets",
     "expo-localization",
     "expo-status-bar",
     [

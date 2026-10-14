@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextInput } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import RegisterForm from '../RegisterForm';
 
@@ -43,5 +44,22 @@ describe('RegisterForm', () => {
 
     expect(screen.getByText('Enter a valid email address')).toBeOnTheScreen();
     expect(screen.getByRole('alert')).toHaveTextContent('Request failed');
+  });
+
+  it('moves through the fields on Next and submits from the password field', async () => {
+    const focus = jest.spyOn(TextInput.prototype, 'focus');
+    const onSubmit = jest.fn();
+    await render(
+      <RegisterForm values={emptyValues} errors={{}} isSubmitting={false} onChangeField={jest.fn()} onSubmit={onSubmit} />
+    );
+
+    for (const placeholder of ['First name', 'Last name', 'Email', 'Username']) {
+      await fireEvent(screen.getByPlaceholderText(placeholder), 'submitEditing');
+    }
+    expect(focus).toHaveBeenCalledTimes(4);
+
+    await fireEvent(screen.getByPlaceholderText('Password'), 'submitEditing');
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    focus.mockClear();
   });
 });

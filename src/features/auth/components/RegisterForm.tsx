@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useRef } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
@@ -26,6 +26,10 @@ export default function RegisterForm({
   onSubmit,
 }: RegisterFormProps) {
   const { t } = useTranslation('auth');
+  const lastNameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const usernameRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
 
   return (
     <View>
@@ -38,8 +42,11 @@ export default function RegisterForm({
         autoComplete="given-name"
         textContentType="givenName"
         returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => lastNameRef.current?.focus()}
       />
       <Input
+        ref={lastNameRef}
         value={values.lastName}
         onChangeText={(text) => onChangeField('lastName', text)}
         error={errors.lastName}
@@ -48,8 +55,11 @@ export default function RegisterForm({
         autoComplete="family-name"
         textContentType="familyName"
         returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => emailRef.current?.focus()}
       />
       <Input
+        ref={emailRef}
         value={values.email}
         onChangeText={(text) => onChangeField('email', text)}
         error={errors.email}
@@ -61,8 +71,11 @@ export default function RegisterForm({
         autoComplete="email"
         textContentType="emailAddress"
         returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => usernameRef.current?.focus()}
       />
       <Input
+        ref={usernameRef}
         value={values.username}
         onChangeText={(text) => onChangeField('username', text)}
         error={errors.username}
@@ -73,8 +86,11 @@ export default function RegisterForm({
         autoComplete="username-new"
         textContentType="username"
         returnKeyType="next"
+        submitBehavior="submit"
+        onSubmitEditing={() => passwordRef.current?.focus()}
       />
       <Input
+        ref={passwordRef}
         value={values.password}
         onChangeText={(text) => onChangeField('password', text)}
         error={errors.password}
