@@ -12,6 +12,7 @@ const product = {
   price: 999,
   currency: 'INR',
   imageUrl: 'https://img/1.jpg',
+  inStock: true
 };
 
 describe('NewInSection', () => {

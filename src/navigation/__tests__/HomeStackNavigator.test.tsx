@@ -4,6 +4,10 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import HomeStackNavigator from '../HomeStackNavigator';
 
+jest.mock('@/features/cart', () => ({
+  ...jest.requireActual('@/features/cart'),
+  useCart: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
+}));
 jest.mock('@/features/catalog', () => {
   const actual = jest.requireActual('@/features/catalog');
   const emptyQuery = { data: [], isPending: false, error: null, refetch: jest.fn() };

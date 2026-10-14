@@ -32,7 +32,7 @@ const tabIcons = {
 const createScreenOptions =
   (colors: ThemeColors) =>
   ({ route }: { route: { name: keyof TabParamList } }): BottomTabNavigationOptions => ({
-    header: () => <AppHeader />,
+    header: ({ navigation }) => <AppHeader onBagPress={() => navigation.navigate('Cart')} />,
     tabBarStyle: { backgroundColor: colors.chrome, borderTopWidth: 0 },
     tabBarActiveTintColor: colors.onChrome,
     tabBarInactiveTintColor: colors.onChromeMuted,

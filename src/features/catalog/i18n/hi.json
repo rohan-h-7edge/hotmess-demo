@@ -7,7 +7,9 @@
   "product": {
     "colour": "रंग: {{colour}}",
     "addToCart": "कार्ट में डालें",
-    "addToWishlist": "विशलिस्ट में जोड़ें"
+    "addToWishlist": "विशलिस्ट में जोड़ें",
+    "outOfStock": "स्टॉक में नहीं",
+    "inCart": "कार्ट में ({{quantity}})"
   },
   "filter": "फ़िल्टर"
 }

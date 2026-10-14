@@ -15,7 +15,7 @@ jest.mock('../../hooks/useHomeCatalog', () => ({
       products: [
         { id: '1', name: 'Glow Satin Kimono', gender: 'women', categoryId: '1',
   categoryName: 'Tops',
-  colour: 'Red', price: 1, currency: 'INR', imageUrl: 'u' },
+  colour: 'Red', price: 1, currency: 'INR', imageUrl: 'u', inStock: true },
       ],
       isLoading: false,
       errorMessage: undefined,

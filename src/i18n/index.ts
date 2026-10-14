@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getLocales } from 'expo-localization';
 import { authTranslations } from '@/features/auth/i18n';
+import { cartTranslations } from '@/features/cart/i18n';
 import { catalogTranslations } from '@/features/catalog/i18n';
 import { editorialsTranslations } from '@/features/editorials/i18n';
 import { homeTranslations } from '@/features/home/i18n';
@@ -22,6 +23,7 @@ export const resources = {
     editorials: editorialsTranslations.en,
     profile: profileTranslations.en,
     catalog: catalogTranslations.en,
+    cart: cartTranslations.en,
   },
   hi: {
     common: hi satisfies typeof en,
@@ -32,6 +34,7 @@ export const resources = {
     editorials: editorialsTranslations.hi,
     profile: profileTranslations.hi,
     catalog: catalogTranslations.hi,
+    cart: cartTranslations.hi,
   },
 };
 

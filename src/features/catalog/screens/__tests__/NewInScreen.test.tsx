@@ -5,6 +5,12 @@ import NewInScreen from '../NewInScreen';
 
 jest.mock('../../queries/useProductPages', () => ({ useProductPages: jest.fn() }));
 
+const mockAddToCart = { mutate: jest.fn(), isPending: false, variables: undefined };
+jest.mock('@/features/cart', () => ({
+  useCart: () => ({ data: [{ productId: '2', quantity: 3 }] }),
+  useAddToCart: () => mockAddToCart,
+}));
+
 const product = (id: string) => ({
   id,
   name: `Shirt ${id}`,
@@ -15,6 +21,7 @@ const product = (id: string) => ({
   price: 1290,
   currency: 'INR',
   imageUrl: `https://img/${id}.jpg`,
+  inStock: true
 });
 
 const pages = (overrides: object) =>
@@ -73,5 +80,15 @@ describe('NewInScreen', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent('Network error');
     expect(result.refetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('adds to the cart and shows what is already in it', async () => {
+    jest.mocked(useProductPages).mockReturnValue(pages({ data: [product('1'), product('2')] }));
+    await render(<NewInScreen />);
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Add to Cart' }));
+
+    expect(mockAddToCart.mutate).toHaveBeenCalledWith('1');
+    expect(screen.getByRole('button', { name: 'In Cart (3)' })).toBeOnTheScreen();
   });
 });

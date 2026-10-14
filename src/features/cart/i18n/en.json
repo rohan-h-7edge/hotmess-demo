@@ -1,0 +1,23 @@
+{
+  "title": "Cart",
+  "empty": {
+    "title": "Your cart is empty !",
+    "message": "Looks like you haven’t added anything yet. Start exploring our amazing products!",
+    "cta": "Shop Now"
+  },
+  "item": {
+    "colour": "Color: {{colour}}",
+    "quantity": "Quantity: {{quantity}}",
+    "chooseQuantity": "Choose quantity",
+    "remove": "Remove",
+    "moveToWishlist": "Move to Wishlist",
+    "inStock": "IN STOCK",
+    "outOfStock": "OUT OF STOCK"
+  },
+  "coupon": "Apply Coupon",
+  "order": {
+    "title": "Order Details",
+    "total": "Total"
+  },
+  "checkout": "Proceed to Checkout"
+}

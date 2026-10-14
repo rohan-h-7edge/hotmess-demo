@@ -10,6 +10,9 @@ const renderCard = (props: Partial<React.ComponentProps<typeof ProductGridCard>>
       colour="Blue"
       priceLabel="₹1,290"
       imageUrl="https://img/1.jpg"
+      inStock
+      cartQuantity={0}
+      isAddingToCart={false}
       {...props}
     />
   );
@@ -39,5 +42,17 @@ describe('ProductGridCard', () => {
 
     expect(onWishlistPress).toHaveBeenCalledTimes(1);
     expect(onAddToCartPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows how many are already in the cart', async () => {
+    await renderCard({ cartQuantity: 2 });
+
+    expect(screen.getByRole('button', { name: 'In Cart (2)' })).toBeOnTheScreen();
+  });
+
+  it('cannot be added when out of stock', async () => {
+    await renderCard({ inStock: false });
+
+    expect(screen.getByRole('button', { name: 'Out of Stock' })).toBeDisabled();
   });
 });

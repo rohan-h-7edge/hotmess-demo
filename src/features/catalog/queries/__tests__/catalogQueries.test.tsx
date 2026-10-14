@@ -20,6 +20,7 @@ const product = {
   price: 1299,
   currency: 'INR',
   imageUrl: 'https://x/1.jpg',
+  inStock: true
 };
 
 describe('catalog queries', () => {

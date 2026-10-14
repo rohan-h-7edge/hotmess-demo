@@ -1,9 +1,13 @@
 import React from 'react';
-import { act, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import { useUserStore } from '@/features/user';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import AppNavigator from '../AppNavigator';
 
+jest.mock('@/features/cart', () => ({
+  ...jest.requireActual('@/features/cart'),
+  useCart: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
+}));
 jest.mock('@/features/catalog', () => ({
   ...jest.requireActual('@/features/catalog'),
   useProducts: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
@@ -38,5 +42,15 @@ describe('AppNavigator', () => {
 
     expect(screen.getByRole('header', { name: 'Welcome Back' })).toBeOnTheScreen();
     expect(screen.queryByRole('progressbar', { name: 'Loading' })).not.toBeOnTheScreen();
+  });
+
+  it('opens the cart from the header bag icon', async () => {
+    useUserStore.getState().signIn('u-1', 'a1', 'r1');
+    await renderWithProviders(<AppNavigator />);
+    await screen.findByText('New In');
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Shopping bag' }));
+
+    expect(await screen.findByRole('header', { name: 'Cart' })).toBeOnTheScreen();
   });
 });

@@ -3,6 +3,7 @@ import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'r
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
 import { SafeAreaScreen } from '@/components/common';
+import { useAddToCart, useCart } from '@/features/cart';
 import { AppText } from '@/components/typography';
 import { spacing, useTheme } from '@/theme';
 import FilterButton from '../components/FilterButton';
@@ -10,7 +11,7 @@ import ListHeader from '../components/ListHeader';
 import ProductGridCard from '../components/ProductGridCard';
 import { useProductPages } from '../queries/useProductPages';
 import type { ProductQuery } from '../types/catalog.types';
-import { formatPrice } from '../utils/formatPrice';
+import { formatPrice } from '@/utils/formatPrice';
 
 const NEW_IN_QUERY: ProductQuery = { categorySlug: 'apparel' };
 
@@ -18,7 +19,10 @@ export default function NewInScreen() {
   const { t, i18n } = useTranslation('catalog');
   const { colors } = useTheme();
   const products = useProductPages(NEW_IN_QUERY);
+  const cart = useCart();
+  const addToCart = useAddToCart();
   const priceLocale = `${i18n.language}-IN`;
+  const cartQuantities = new Map(cart.data?.map((item) => [item.productId, item.quantity]));
 
   const loadMore = () => {
     if (products.hasNextPage && !products.isFetchingNextPage) products.fetchNextPage();
@@ -65,6 +69,10 @@ export default function NewInScreen() {
             colour={item.colour}
             priceLabel={formatPrice(item.price, item.currency, priceLocale)}
             imageUrl={item.imageUrl}
+            inStock={item.inStock}
+            cartQuantity={cartQuantities.get(item.id) ?? 0}
+            isAddingToCart={addToCart.isPending && addToCart.variables === item.id}
+            onAddToCartPress={() => addToCart.mutate(item.id)}
           />
         )}
         ListHeaderComponent={<ListHeader title={t('newIn.title')} subtitle={t('newIn.subtitle')} />}

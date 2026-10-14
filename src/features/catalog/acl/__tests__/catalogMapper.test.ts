@@ -1,7 +1,7 @@
-import { toCategories, toProductImageUrl, toProductQueryParams, toProducts } from '../catalogMapper';
+import { toCategories, toProductQueryParams, toProducts } from '../catalogMapper';
 
 const SELECT =
-  'id,name,gender,category_id,price,currency,image_path,base_colour,category:categories!inner(slug,name)';
+  'id,name,gender,category_id,price,currency,image_path,base_colour,stock,category:categories!inner(slug,name)';
 
 describe('catalogMapper', () => {
   it('maps categories to frontend models', () => {
@@ -21,6 +21,7 @@ describe('catalogMapper', () => {
         currency: 'INR',
         image_path: '15970.jpg',
         base_colour: 'Navy Blue',
+        stock: 0,
         category: { name: 'Shirts', slug: 'apparel-topwear-shirts' },
       },
     ]);
@@ -34,20 +35,15 @@ describe('catalogMapper', () => {
       colour: 'Navy Blue',
       price: 1299,
       currency: 'INR',
-      imageUrl: toProductImageUrl('15970.jpg'),
+      imageUrl: expect.stringMatching(/\/product-images\/15970\.jpg$/),
+      inStock: false,
     });
-  });
-
-  it('builds image URLs under the public product-images bucket', () => {
-    expect(toProductImageUrl('1.jpg', 'https://x.supabase.co')).toBe(
-      'https://x.supabase.co/storage/v1/object/public/product-images/1.jpg'
-    );
   });
 
   it('rejects rows with an unknown gender', () => {
     expect(() =>
       toProducts([
-        { id: 1, name: 'A', gender: 'robots', category_id: 1, price: 1, currency: 'INR', image_path: '1.jpg', base_colour: null, category: { name: 'A' } },
+        { id: 1, name: 'A', gender: 'robots', category_id: 1, price: 1, currency: 'INR', image_path: '1.jpg', base_colour: null, stock: 1, category: { name: 'A' } },
       ])
     ).toThrow();
   });

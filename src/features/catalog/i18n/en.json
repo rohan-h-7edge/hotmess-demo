@@ -7,7 +7,9 @@
   "product": {
     "colour": "Color: {{colour}}",
     "addToCart": "Add to Cart",
-    "addToWishlist": "Add to wishlist"
+    "addToWishlist": "Add to wishlist",
+    "outOfStock": "Out of Stock",
+    "inCart": "In Cart ({{quantity}})"
   },
   "filter": "Filter"
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginScreen, RegisterScreen } from '@/features/auth';
+import { CartScreen } from '@/features/cart';
 import { SplashScreen } from '@/features/splash';
 import { useAuth } from '@/features/user';
 import TabNavigator from './TabNavigator';
@@ -22,7 +23,12 @@ export default function AppNavigator() {
       return <Stack.Screen name="Splash">{() => <SplashScreen onFinish={() => setIsSplashDone(true)} />}</Stack.Screen>;
     }
     if (isAuthenticated) {
-      return <Stack.Screen name="Main" component={TabNavigator} />;
+      return (
+        <>
+          <Stack.Screen name="Main" component={TabNavigator} />
+          <Stack.Screen name="Cart" component={CartScreen} />
+        </>
+      );
     }
     return (
       <>

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { env } from '@/config/env';
+import { PRODUCT_IMAGE_BUCKET, publicStorageUrl } from '@/utils/storageUrl';
 import type { Category, Product, ProductFilter, Season } from '../types/catalog.types';
 import {
   CategoryDtoSchema,
@@ -9,17 +9,12 @@ import {
   ProductQueryParamsDto,
 } from './catalog.dto';
 
-const PRODUCT_IMAGE_BUCKET = 'product-images';
-
 const SEASON_VALUES: Record<Season, string> = {
   spring: 'Spring',
   summer: 'Summer',
   fall: 'Fall',
   winter: 'Winter',
 };
-
-export const toProductImageUrl = (imagePath: string, baseUrl = env.EXPO_PUBLIC_API_URL) =>
-  `${baseUrl}/storage/v1/object/public/${PRODUCT_IMAGE_BUCKET}/${imagePath}`;
 
 export const toCategories = (raw: unknown): Category[] =>
   z
@@ -40,7 +35,8 @@ export const toProducts = (raw: unknown): Product[] =>
       colour: dto.base_colour,
       price: dto.price,
       currency: dto.currency,
-      imageUrl: toProductImageUrl(dto.image_path),
+      imageUrl: publicStorageUrl(PRODUCT_IMAGE_BUCKET, dto.image_path),
+      inStock: dto.stock > 0,
     }));
 
 // A category slug matches itself and everything below it, e.g. "apparel" also matches "apparel-topwear-shirts".

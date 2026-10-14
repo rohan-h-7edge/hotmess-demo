@@ -18,6 +18,7 @@ export interface Product {
   price: number;
   currency: string;
   imageUrl: string;
+  inStock: boolean;
 }
 
 export interface ProductQuery {

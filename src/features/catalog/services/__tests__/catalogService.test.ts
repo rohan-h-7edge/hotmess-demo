@@ -20,7 +20,7 @@ describe('catalogService', () => {
     expect(api.get).toHaveBeenCalledWith('/rest/v1/products', {
       params: {
         select:
-          'id,name,gender,category_id,price,currency,image_path,base_colour,category:categories!inner(slug,name)',
+          'id,name,gender,category_id,price,currency,image_path,base_colour,stock,category:categories!inner(slug,name)',
         order: 'year.desc.nullslast,id.desc',
         limit: 10,
         gender: 'in.(women)',

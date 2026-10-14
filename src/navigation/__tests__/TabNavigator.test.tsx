@@ -5,6 +5,10 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import TabNavigator from '../TabNavigator';
 
+jest.mock('@/features/cart', () => ({
+  ...jest.requireActual('@/features/cart'),
+  useCart: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
+}));
 jest.mock('@/features/catalog', () => ({
   ...jest.requireActual('@/features/catalog'),
   useProducts: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),
@@ -38,4 +42,5 @@ describe('TabNavigator', () => {
     expect(screen.getByRole('button', { name: 'Sign Out' })).toBeOnTheScreen();
     expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
   });
+
 });

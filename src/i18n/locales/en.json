@@ -2,7 +2,8 @@
   "appName": "Hotmess Demo",
   "actions": {
     "retry": "Retry",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "back": "Back"
   },
   "validation": {
     "emailRequired": "Email is required",

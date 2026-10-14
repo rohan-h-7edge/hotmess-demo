@@ -17,6 +17,7 @@ export type RootStackParamList = {
   Splash: undefined;
   Login: { registeredEmail: string; needsEmailConfirmation: boolean } | undefined;
   Register: undefined;
+  Cart: undefined;
   Main: NavigatorScreenParams<TabParamList>;
 };
 

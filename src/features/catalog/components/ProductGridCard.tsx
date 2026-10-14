@@ -13,6 +13,9 @@ interface ProductGridCardProps {
   colour: string | null;
   priceLabel: string;
   imageUrl: string;
+  inStock: boolean;
+  cartQuantity: number;
+  isAddingToCart: boolean;
   onWishlistPress?: () => void;
   onAddToCartPress?: () => void;
 }
@@ -25,12 +28,21 @@ export default function ProductGridCard({
   colour,
   priceLabel,
   imageUrl,
+  inStock,
+  cartQuantity,
+  isAddingToCart,
   onWishlistPress,
   onAddToCartPress,
 }: ProductGridCardProps) {
   const { t } = useTranslation('catalog');
   const { colors } = useTheme();
   const styles = createStyles(colors);
+
+  const addToCartLabel = () => {
+    if (!inStock) return t('product.outOfStock');
+    if (cartQuantity > 0) return t('product.inCart', { quantity: cartQuantity });
+    return t('product.addToCart');
+  };
 
   return (
     <View style={styles.card}>
@@ -58,7 +70,13 @@ export default function ProductGridCard({
         </AppText>
         {colour ? <AppText variant="caption">{t('product.colour', { colour })}</AppText> : null}
       </View>
-      <Button title={t('product.addToCart')} onPress={onAddToCartPress} />
+      <Button
+        title={addToCartLabel()}
+        disabled={!inStock}
+        loading={isAddingToCart}
+        variant={cartQuantity > 0 ? 'secondary' : 'primary'}
+        onPress={onAddToCartPress}
+      />
     </View>
   );
 }

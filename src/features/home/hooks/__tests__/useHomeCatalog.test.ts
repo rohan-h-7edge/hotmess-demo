@@ -14,6 +14,7 @@ const product = (id: string) => ({
   price: 999,
   currency: 'INR',
   imageUrl: `https://img/${id}.jpg`,
+  inStock: true
 });
 
 const queryResult = (overrides: object) => ({ data: undefined, isPending: false, error: null, refetch: jest.fn(), ...overrides });
