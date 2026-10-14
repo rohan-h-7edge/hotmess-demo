@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextInput } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import { RevealFocusedFieldContext } from '../../hooks/useRevealFocusedField';
 import RegisterForm from '../RegisterForm';
 
 const emptyValues = { firstName: '', lastName: '', email: '', username: '', password: '' };
@@ -61,5 +62,20 @@ describe('RegisterForm', () => {
     await fireEvent(screen.getByPlaceholderText('Password'), 'submitEditing');
     expect(onSubmit).toHaveBeenCalledTimes(1);
     focus.mockClear();
+  });
+
+  it('scrolls the form when a field gains focus', async () => {
+    const reveal = jest.fn();
+    await render(
+      <RevealFocusedFieldContext.Provider value={reveal}>
+        <RegisterForm values={emptyValues} errors={{}} isSubmitting={false} onChangeField={jest.fn()} onSubmit={jest.fn()} />
+      </RevealFocusedFieldContext.Provider>
+    );
+
+    for (const placeholder of ['First name', 'Last name', 'Email', 'Username', 'Password']) {
+      await fireEvent(screen.getByPlaceholderText(placeholder), 'focus');
+    }
+
+    expect(reveal).toHaveBeenCalledTimes(5);
   });
 });

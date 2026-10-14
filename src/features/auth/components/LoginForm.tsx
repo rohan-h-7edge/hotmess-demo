@@ -6,6 +6,7 @@ import { Input } from '@/components/input';
 import { spacing } from '@/theme';
 import type { FieldErrors } from '@/utils/validation';
 import type { LoginInput } from '../types/auth.types';
+import { useRevealFocusedField } from '../hooks/useRevealFocusedField';
 import FormError from './FormError';
 import PasswordInput from './PasswordInput';
 
@@ -20,6 +21,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ values, errors, submitError, isSubmitting, onChangeField, onSubmit }: LoginFormProps) {
   const { t } = useTranslation('auth');
+  const revealFocusedField = useRevealFocusedField();
   const passwordRef = useRef<TextInput>(null);
 
   return (
@@ -27,6 +29,7 @@ export default function LoginForm({ values, errors, submitError, isSubmitting, o
       <Input
         value={values.email}
         onChangeText={(text) => onChangeField('email', text)}
+        onFocus={revealFocusedField}
         error={errors.email}
         placeholder={t('fields.email')}
         accessibilityLabel={t('fields.email')}
@@ -43,6 +46,7 @@ export default function LoginForm({ values, errors, submitError, isSubmitting, o
         ref={passwordRef}
         value={values.password}
         onChangeText={(text) => onChangeField('password', text)}
+        onFocus={revealFocusedField}
         error={errors.password}
         placeholder={t('fields.password')}
         accessibilityLabel={t('fields.password')}

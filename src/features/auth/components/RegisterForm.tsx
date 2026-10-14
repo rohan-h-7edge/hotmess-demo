@@ -6,6 +6,7 @@ import { Input } from '@/components/input';
 import { spacing } from '@/theme';
 import type { FieldErrors } from '@/utils/validation';
 import type { RegisterInput } from '../types/auth.types';
+import { useRevealFocusedField } from '../hooks/useRevealFocusedField';
 import FormError from './FormError';
 import PasswordInput from './PasswordInput';
 
@@ -27,6 +28,7 @@ export default function RegisterForm({
   onSubmit,
 }: RegisterFormProps) {
   const { t } = useTranslation('auth');
+  const revealFocusedField = useRevealFocusedField();
   const lastNameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const usernameRef = useRef<TextInput>(null);
@@ -37,6 +39,7 @@ export default function RegisterForm({
       <Input
         value={values.firstName}
         onChangeText={(text) => onChangeField('firstName', text)}
+        onFocus={revealFocusedField}
         error={errors.firstName}
         placeholder={t('fields.firstName')}
         accessibilityLabel={t('fields.firstName')}
@@ -50,6 +53,7 @@ export default function RegisterForm({
         ref={lastNameRef}
         value={values.lastName}
         onChangeText={(text) => onChangeField('lastName', text)}
+        onFocus={revealFocusedField}
         error={errors.lastName}
         placeholder={t('fields.lastName')}
         accessibilityLabel={t('fields.lastName')}
@@ -63,6 +67,7 @@ export default function RegisterForm({
         ref={emailRef}
         value={values.email}
         onChangeText={(text) => onChangeField('email', text)}
+        onFocus={revealFocusedField}
         error={errors.email}
         placeholder={t('fields.email')}
         accessibilityLabel={t('fields.email')}
@@ -79,6 +84,7 @@ export default function RegisterForm({
         ref={usernameRef}
         value={values.username}
         onChangeText={(text) => onChangeField('username', text)}
+        onFocus={revealFocusedField}
         error={errors.username}
         placeholder={t('fields.username')}
         accessibilityLabel={t('fields.username')}
@@ -94,6 +100,7 @@ export default function RegisterForm({
         ref={passwordRef}
         value={values.password}
         onChangeText={(text) => onChangeField('password', text)}
+        onFocus={revealFocusedField}
         error={errors.password}
         placeholder={t('fields.password')}
         accessibilityLabel={t('fields.password')}
