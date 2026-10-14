@@ -5,7 +5,6 @@ import {
   CategoryDtoSchema,
   NEWEST_FIRST,
   PRODUCT_COLUMNS,
-  PRODUCT_COLUMNS_WITH_CATEGORY,
   ProductDtoSchema,
   ProductQueryParamsDto,
 } from './catalog.dto';
@@ -37,6 +36,8 @@ export const toProducts = (raw: unknown): Product[] =>
       name: dto.name,
       gender: dto.gender,
       categoryId: String(dto.category_id),
+      categoryName: dto.category.name,
+      colour: dto.base_colour,
       price: dto.price,
       currency: dto.currency,
       imageUrl: toProductImageUrl(dto.image_path),
@@ -44,9 +45,10 @@ export const toProducts = (raw: unknown): Product[] =>
 
 // A category slug matches itself and everything below it, e.g. "apparel" also matches "apparel-topwear-shirts".
 export const toProductQueryParams = (filter: ProductFilter): ProductQueryParamsDto => ({
-  select: filter.categorySlug ? PRODUCT_COLUMNS_WITH_CATEGORY : PRODUCT_COLUMNS,
+  select: PRODUCT_COLUMNS,
   order: NEWEST_FIRST,
   limit: filter.limit,
+  ...(filter.offset ? { offset: filter.offset } : {}),
   ...(filter.genders?.length ? { gender: `in.(${filter.genders.join(',')})` } : {}),
   ...(filter.season ? { season: `eq.${SEASON_VALUES[filter.season]}` } : {}),
   ...(filter.categorySlug

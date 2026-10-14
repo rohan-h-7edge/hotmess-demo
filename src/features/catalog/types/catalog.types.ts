@@ -13,14 +13,20 @@ export interface Product {
   name: string;
   gender: ProductGender;
   categoryId: string;
+  categoryName: string;
+  colour: string | null;
   price: number;
   currency: string;
   imageUrl: string;
 }
 
-export interface ProductFilter {
+export interface ProductQuery {
   genders?: ProductGender[];
   categorySlug?: string;
   season?: Season;
+}
+
+export interface ProductFilter extends ProductQuery {
   limit: number;
+  offset?: number;
 }

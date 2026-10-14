@@ -14,12 +14,14 @@ export const ProductDtoSchema = z.object({
   price: z.coerce.number(),
   currency: z.string(),
   image_path: z.string(),
+  base_colour: z.string().nullable(),
+  category: z.object({ name: z.string() }),
 });
 
 export const CATEGORY_COLUMNS = 'id,slug,name';
-export const PRODUCT_COLUMNS = 'id,name,gender,category_id,price,currency,image_path';
-// Inner-joins the category so products can be filtered by its slug.
-export const PRODUCT_COLUMNS_WITH_CATEGORY = `${PRODUCT_COLUMNS},category:categories!inner(slug)`;
+// The inner-joined category supplies its name and lets products be filtered by its slug.
+export const PRODUCT_COLUMNS =
+  'id,name,gender,category_id,price,currency,image_path,base_colour,category:categories!inner(slug,name)';
 export const NEWEST_FIRST = 'year.desc.nullslast,id.desc';
 
 export type ProductQueryParamsDto = Record<string, string | number>;

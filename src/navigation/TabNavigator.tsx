@@ -6,10 +6,10 @@ import { AppHeader } from '@/components/common';
 import { Icon } from '@/components/icon';
 import { AppText } from '@/components/typography';
 import { EditorialsScreen } from '@/features/editorials';
-import { HomeScreen } from '@/features/home';
 import { ProfileScreen } from '@/features/profile';
 import { WishlistScreen } from '@/features/wishlist';
 import { ThemeColors, useTheme } from '@/theme';
+import HomeStackNavigator from './HomeStackNavigator';
 import type { TabParamList } from './types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -54,7 +54,7 @@ export default function TabNavigator() {
 
   return (
     <Tab.Navigator screenOptions={createScreenOptions(colors)} screenListeners={tabPressFeedback}>
-      <Tab.Screen name="Home" component={HomeScreen} options={{ title: t('home:tabTitle') }} />
+      <Tab.Screen name="Home" component={HomeStackNavigator} options={{ title: t('home:tabTitle') }} />
       <Tab.Screen name="Wishlist" component={WishlistScreen} options={{ title: t('wishlist:tabTitle') }} />
       <Tab.Screen name="Editorials" component={EditorialsScreen} options={{ title: t('editorials:tabTitle') }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: t('profile:tabTitle') }} />

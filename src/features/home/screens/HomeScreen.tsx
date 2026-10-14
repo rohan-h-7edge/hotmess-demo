@@ -2,13 +2,14 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaScreen } from '@/components/common';
+import type { HomeStackScreenProps } from '@/navigation/types';
 import { spacing } from '@/theme';
 import CollectionTile from '../components/CollectionTile';
 import NewInSection from '../components/NewInSection';
 import PromoBanner from '../components/PromoBanner';
 import { useHomeCatalog } from '../hooks/useHomeCatalog';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: HomeStackScreenProps<'HomeMain'>) {
   const { t } = useTranslation('home');
   const { collections, bannerImageUrl, newIn } = useHomeCatalog();
 
@@ -37,6 +38,7 @@ export default function HomeScreen() {
           isLoading={newIn.isLoading}
           errorMessage={newIn.errorMessage}
           onRetry={newIn.retry}
+          onViewAll={() => navigation.navigate('NewIn')}
         />
       </ScrollView>
     </SafeAreaScreen>

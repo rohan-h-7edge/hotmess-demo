@@ -1,0 +1,13 @@
+{
+  "newIn": {
+    "title": "New In",
+    "subtitle": "Discover fashion’s fresh take on the ultimate wardrobe essentials",
+    "end": "You've reached the end"
+  },
+  "product": {
+    "colour": "Color: {{colour}}",
+    "addToCart": "Add to Cart",
+    "addToWishlist": "Add to wishlist"
+  },
+  "filter": "Filter"
+}
