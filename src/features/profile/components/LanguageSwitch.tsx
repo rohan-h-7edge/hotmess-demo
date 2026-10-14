@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/typography';
 import { radius, spacing, ThemeColors, useTheme } from '@/theme';
+import { selectionFeedback } from '@/utils/haptics';
 
 interface LanguageOption<T extends string> {
   value: T;
@@ -18,6 +19,12 @@ export default function LanguageSwitch<T extends string>({ value, options, onCha
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
+  const choose = (option: T) => {
+    if (option === value) return;
+    selectionFeedback();
+    onChange(option);
+  };
+
   return (
     <View style={styles.switch} accessibilityRole="radiogroup">
       {options.map((option) => {
@@ -27,7 +34,7 @@ export default function LanguageSwitch<T extends string>({ value, options, onCha
             key={option.value}
             accessibilityRole="radio"
             accessibilityState={{ checked: selected }}
-            onPress={() => onChange(option.value)}
+            onPress={() => choose(option.value)}
             style={[styles.option, selected && styles.selected]}
           >
             <AppText variant="caption" color={selected ? 'onPrimary' : 'text'}>
