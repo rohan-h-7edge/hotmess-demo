@@ -1,16 +1,28 @@
 import { api } from '@/services/api';
-import { toAddUserRequest, toAuthSession, toAuthTokens, toLoginRequest, toRefreshRequest, toRegisteredUser } from '../acl/authMapper';
+import {
+  toAuthSession,
+  toAuthTokens,
+  toPasswordGrantRequest,
+  toRefreshTokenGrantRequest,
+  toRegisteredUser,
+  toSignUpRequest,
+} from '../acl/authMapper';
 import type { AuthSession, AuthTokens, LoginInput, RegisteredUser, RegisterInput } from '../types/auth.types';
 
-const noRefresh = { skipAuthRefresh: true };
+const tokenGrant = (grantType: 'password' | 'refresh_token') => ({
+  params: { grant_type: grantType },
+  skipAuthRefresh: true,
+});
 
 export const authService = {
   login: async (input: LoginInput): Promise<AuthSession> =>
-    toAuthSession(await api.post('/auth/login', toLoginRequest(input), noRefresh)),
+    toAuthSession(await api.post('/auth/v1/token', toPasswordGrantRequest(input), tokenGrant('password'))),
 
   refresh: async (refreshToken: string): Promise<AuthTokens> =>
-    toAuthTokens(await api.post('/auth/refresh', toRefreshRequest(refreshToken), noRefresh)),
+    toAuthTokens(
+      await api.post('/auth/v1/token', toRefreshTokenGrantRequest(refreshToken), tokenGrant('refresh_token'))
+    ),
 
   register: async (input: RegisterInput): Promise<RegisteredUser> =>
-    toRegisteredUser(await api.post('/users/add', toAddUserRequest(input), noRefresh)),
+    toRegisteredUser(await api.post('/auth/v1/signup', toSignUpRequest(input), { skipAuthRefresh: true })),
 };

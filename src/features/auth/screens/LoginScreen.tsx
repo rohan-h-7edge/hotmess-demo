@@ -14,9 +14,9 @@ import { LoginSchema } from '../types/auth.types';
 
 export default function LoginScreen({ navigation, route }: RootStackScreenProps<'Login'>) {
   const { t } = useTranslation('auth');
-  const form = useForm(LoginSchema, { username: '', password: '' });
+  const form = useForm(LoginSchema, { email: '', password: '' });
   const login = useLogin();
-  const registeredUsername = route.params?.registeredUsername;
+  const registration = route.params;
 
   const submit = () => {
     const input = form.validate();
@@ -26,9 +26,11 @@ export default function LoginScreen({ navigation, route }: RootStackScreenProps<
   return (
     <AuthLayout>
       <AuthHeader title={t('login.title')} subtitle={t('login.subtitle')} />
-      {registeredUsername ? (
+      {registration ? (
         <AppText variant="caption" color="success" style={styles.notice}>
-          {t('login.registered', { username: registeredUsername })}
+          {registration.needsEmailConfirmation
+            ? t('login.confirmEmail', { email: registration.registeredEmail })
+            : t('login.registered', { email: registration.registeredEmail })}
         </AppText>
       ) : null}
       <LoginForm

@@ -11,11 +11,14 @@ export interface AuthSession extends AuthTokens {
 
 export interface RegisteredUser {
   id: string;
-  username: string;
+  email: string;
+  needsEmailConfirmation: boolean;
 }
 
+const EmailSchema = z.string().trim().pipe(z.email('common:validation.emailInvalid'));
+
 export const LoginSchema = z.object({
-  username: z.string().trim().min(1, 'auth:validation.usernameRequired'),
+  email: EmailSchema,
   password: z.string().min(1, 'common:validation.passwordRequired'),
 });
 
@@ -24,7 +27,7 @@ export type LoginInput = z.infer<typeof LoginSchema>;
 export const RegisterSchema = z.object({
   firstName: z.string().trim().min(1, 'auth:validation.firstNameRequired'),
   lastName: z.string().trim().min(1, 'auth:validation.lastNameRequired'),
-  email: z.string().trim().pipe(z.email('common:validation.emailInvalid')),
+  email: EmailSchema,
   username: z.string().trim().min(3, 'auth:validation.usernameTooShort'),
   password: z.string().min(8, 'common:validation.passwordTooShort'),
 });

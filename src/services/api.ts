@@ -51,6 +51,7 @@ export const http = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    ...(env.EXPO_PUBLIC_API_KEY ? { apikey: env.EXPO_PUBLIC_API_KEY } : {}),
   },
 });
 
@@ -66,7 +67,8 @@ http.interceptors.request.use((config) => {
 const toApiError = (error: AxiosError): ApiError => {
   if (error.response) {
     const { status, data } = error.response;
-    const serverMessage = (data as { message?: unknown } | undefined)?.message;
+    const body = data as { message?: unknown; msg?: unknown } | undefined;
+    const serverMessage = body?.message ?? body?.msg;
     const message = typeof serverMessage === 'string' ? serverMessage : i18n.t('common:errors.requestFailed', { status });
     return new ApiError(message, status, data);
   }

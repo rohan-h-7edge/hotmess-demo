@@ -53,6 +53,12 @@ describe('api', () => {
     expect(onUnauthorized).toHaveBeenCalledTimes(1);
   });
 
+  it('reads the server message from a msg field', async () => {
+    respondWith({ status: 400, data: { msg: 'Invalid login credentials' } });
+
+    await expect(api.post('/auth/v1/token')).rejects.toMatchObject({ status: 400, message: 'Invalid login credentials' });
+  });
+
   it('turns failures into readable, translated errors', async () => {
     respondWith({ status: 500 });
     await expect(api.get('/x')).rejects.toMatchObject({ status: 500, message: 'Request failed with status 500' });
@@ -96,5 +102,14 @@ describe('api', () => {
 
     await expect(api.post('/auth/login', {}, { skipAuthRefresh: true })).rejects.toMatchObject({ status: 401 });
     expect(refreshAuthToken).not.toHaveBeenCalled();
+  });
+
+  it('sends the API key header when one is configured', () => {
+    jest.isolateModules(() => {
+      jest.doMock('@/config/env', () => ({ env: { EXPO_PUBLIC_APP_VARIANT: 'develop', EXPO_PUBLIC_API_KEY: 'pk' } }));
+      const isolated = require('../api') as typeof import('../api');
+
+      expect(isolated.http.defaults.headers.apikey).toBe('pk');
+    });
   });
 });

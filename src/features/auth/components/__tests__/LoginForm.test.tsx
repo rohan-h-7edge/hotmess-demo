@@ -7,7 +7,7 @@ const renderForm = (props: Partial<React.ComponentProps<typeof LoginForm>> = {})
   const handlers = { onChangeField: jest.fn(), onSubmit: jest.fn() };
   return render(
     <LoginForm
-      values={{ username: '', password: '' }}
+      values={{ email: '', password: '' }}
       errors={{}}
       isSubmitting={false}
       {...handlers}
@@ -20,27 +20,27 @@ describe('LoginForm', () => {
   it('reports typed values and submits', async () => {
     const { onChangeField, onSubmit } = await renderForm();
 
-    await fireEvent.changeText(screen.getByPlaceholderText('Username'), 'emilys');
-    await fireEvent.changeText(screen.getByPlaceholderText('Password'), 'emilyspass');
+    await fireEvent.changeText(screen.getByPlaceholderText('Email'), 'ana@x.co');
+    await fireEvent.changeText(screen.getByPlaceholderText('Password'), 'secret123');
     await fireEvent.press(screen.getByRole('button', { name: 'Sign In' }));
 
-    expect(onChangeField).toHaveBeenCalledWith('username', 'emilys');
-    expect(onChangeField).toHaveBeenCalledWith('password', 'emilyspass');
+    expect(onChangeField).toHaveBeenCalledWith('email', 'ana@x.co');
+    expect(onChangeField).toHaveBeenCalledWith('password', 'secret123');
     expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 
   it('shows field and submit errors', async () => {
-    await renderForm({ errors: { username: 'Username is required' }, submitError: 'Invalid credentials' });
+    await renderForm({ errors: { email: 'Enter a valid email address' }, submitError: 'Invalid login credentials' });
 
-    expect(screen.getByText('Username is required')).toBeOnTheScreen();
-    expect(screen.getByRole('alert')).toHaveTextContent('Invalid credentials');
+    expect(screen.getByText('Enter a valid email address')).toBeOnTheScreen();
+    expect(screen.getByRole('alert')).toHaveTextContent('Invalid login credentials');
   });
 
   it('moves to the password field on Next and submits on Go', async () => {
     const focus = jest.spyOn(TextInput.prototype, 'focus');
     const { onSubmit } = await renderForm();
 
-    await fireEvent(screen.getByPlaceholderText('Username'), 'submitEditing');
+    await fireEvent(screen.getByPlaceholderText('Email'), 'submitEditing');
     expect(focus).toHaveBeenCalledTimes(1);
 
     await fireEvent(screen.getByPlaceholderText('Password'), 'submitEditing');

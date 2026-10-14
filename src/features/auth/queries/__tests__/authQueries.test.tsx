@@ -11,18 +11,18 @@ describe('auth queries', () => {
   afterEach(() => useUserStore.getState().signOut());
 
   it('signs the user in after a successful login', async () => {
-    jest.mocked(authService.login).mockResolvedValue({ userId: '1', accessToken: 'a1', refreshToken: 'r1' });
+    jest.mocked(authService.login).mockResolvedValue({ userId: 'u-1', accessToken: 'a1', refreshToken: 'r1' });
     const { result } = await renderHook(() => useLogin(), { wrapper: createQueryWrapper() });
 
     await act(async () => {
-      await result.current.mutateAsync({ username: 'emilys', password: 'emilyspass' });
+      await result.current.mutateAsync({ email: 'ana@x.co', password: 'secret123' });
     });
 
-    expect(useUserStore.getState()).toMatchObject({ currentUserId: '1', accessToken: 'a1', refreshToken: 'r1' });
+    expect(useUserStore.getState()).toMatchObject({ currentUserId: 'u-1', accessToken: 'a1', refreshToken: 'r1' });
   });
 
   it('returns the registered user', async () => {
-    jest.mocked(authService.register).mockResolvedValue({ id: '209', username: 'anaray' });
+    jest.mocked(authService.register).mockResolvedValue({ id: 'u-1', email: 'ana@x.co', needsEmailConfirmation: true });
     const { result } = await renderHook(() => useRegister(), { wrapper: createQueryWrapper() });
     const input = { firstName: 'Ana', lastName: 'Ray', email: 'a@x.co', username: 'anaray', password: 'secret123' };
 
@@ -31,7 +31,7 @@ describe('auth queries', () => {
       user = await result.current.mutateAsync(input);
     });
 
-    expect(user).toEqual({ id: '209', username: 'anaray' });
+    expect(user).toEqual({ id: 'u-1', email: 'ana@x.co', needsEmailConfirmation: true });
     expect(useUserStore.getState().accessToken).toBeNull();
   });
 });

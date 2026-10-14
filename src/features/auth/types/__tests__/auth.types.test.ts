@@ -1,15 +1,15 @@
 import { LoginSchema, RegisterSchema } from '../auth.types';
 
 describe('LoginSchema', () => {
-  it('trims the username', () => {
-    expect(LoginSchema.parse({ username: '  emilys  ', password: 'emilyspass' }).username).toBe('emilys');
+  it('trims the email', () => {
+    expect(LoginSchema.parse({ email: '  ana@x.co  ', password: 'secret' }).email).toBe('ana@x.co');
   });
 
   it('uses translation keys as error messages', () => {
-    const result = LoginSchema.safeParse({ username: ' ', password: '' });
+    const result = LoginSchema.safeParse({ email: 'not-an-email', password: '' });
 
     expect(result.error?.issues.map((issue) => issue.message)).toEqual([
-      'auth:validation.usernameRequired',
+      'common:validation.emailInvalid',
       'common:validation.passwordRequired',
     ]);
   });

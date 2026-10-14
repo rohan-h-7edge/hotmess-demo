@@ -25,8 +25,8 @@ describe('RegisterScreen', () => {
     expect(authService.register).not.toHaveBeenCalled();
   });
 
-  it('registers and returns to login with the new username', async () => {
-    jest.mocked(authService.register).mockResolvedValue({ id: '209', username: 'anaray' });
+  it('registers and returns to login with the new email', async () => {
+    jest.mocked(authService.register).mockResolvedValue({ id: 'u-1', email: 'a@x.co', needsEmailConfirmation: true });
     const navigation = await renderRegister();
 
     await fireEvent.changeText(screen.getByPlaceholderText('First name'), 'Ana');
@@ -36,7 +36,7 @@ describe('RegisterScreen', () => {
     await fireEvent.changeText(screen.getByPlaceholderText('Password'), 'secret123');
     await fireEvent.press(screen.getByRole('button', { name: 'Register' }));
 
-    await waitFor(() => expect(navigation.popTo).toHaveBeenCalledWith('Login', { registeredUsername: 'anaray' }));
+    await waitFor(() => expect(navigation.popTo).toHaveBeenCalledWith('Login', { registeredEmail: 'a@x.co', needsEmailConfirmation: true }));
   });
 
   it('goes back to login', async () => {

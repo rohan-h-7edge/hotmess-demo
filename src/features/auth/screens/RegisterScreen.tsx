@@ -20,7 +20,8 @@ export default function RegisterScreen({ navigation }: RootStackScreenProps<'Reg
     const input = form.validate();
     if (!input) return;
     register.mutate(input, {
-      onSuccess: (user) => navigation.popTo('Login', { registeredUsername: user.username }),
+      onSuccess: (user) =>
+        navigation.popTo('Login', { registeredEmail: user.email, needsEmailConfirmation: user.needsEmailConfirmation }),
     });
   };
 

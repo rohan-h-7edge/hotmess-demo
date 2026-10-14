@@ -5,7 +5,8 @@
     "submit": "Sign In",
     "noAccount": "Don't have an account?",
     "goToRegister": "Register",
-    "registered": "Account created for {{username}}. Sign in to continue."
+    "registered": "Account created for {{email}}. Sign in to continue.",
+    "confirmEmail": "We sent a confirmation link to {{email}}. Confirm your email, then sign in."
   },
   "register": {
     "title": "Create Account",
@@ -22,7 +23,6 @@
     "password": "Password"
   },
   "validation": {
-    "usernameRequired": "Username is required",
     "usernameTooShort": "Username must be at least 3 characters",
     "firstNameRequired": "First name is required",
     "lastNameRequired": "Last name is required"

@@ -1,34 +1,34 @@
 import { z } from 'zod';
 
-export const LoginResponseDtoSchema = z.object({
-  id: z.number(),
-  accessToken: z.string(),
-  refreshToken: z.string(),
+const UserDtoSchema = z.object({
+  id: z.string(),
+  email: z.string(),
 });
 
-export const RefreshResponseDtoSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
+export const SessionDtoSchema = z.object({
+  access_token: z.string(),
+  refresh_token: z.string(),
+  user: UserDtoSchema,
 });
 
-export const AddUserResponseDtoSchema = z.object({
-  id: z.number(),
-  username: z.string(),
-});
+// Signup returns a session when email confirmation is off, otherwise only the user.
+export const SignUpResponseDtoSchema = z.union([SessionDtoSchema, UserDtoSchema]);
 
-export interface LoginRequestDto {
-  username: string;
-  password: string;
-}
-
-export interface RefreshRequestDto {
-  refreshToken: string;
-}
-
-export interface AddUserRequestDto {
-  firstName: string;
-  lastName: string;
+export interface PasswordGrantRequestDto {
   email: string;
-  username: string;
   password: string;
+}
+
+export interface RefreshTokenGrantRequestDto {
+  refresh_token: string;
+}
+
+export interface SignUpRequestDto {
+  email: string;
+  password: string;
+  data: {
+    first_name: string;
+    last_name: string;
+    username: string;
+  };
 }

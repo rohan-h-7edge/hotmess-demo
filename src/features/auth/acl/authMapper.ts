@@ -1,39 +1,45 @@
 import type { AuthSession, AuthTokens, LoginInput, RegisteredUser, RegisterInput } from '../types/auth.types';
 import {
-  AddUserRequestDto,
-  AddUserResponseDtoSchema,
-  LoginRequestDto,
-  LoginResponseDtoSchema,
-  RefreshRequestDto,
-  RefreshResponseDtoSchema,
+  PasswordGrantRequestDto,
+  RefreshTokenGrantRequestDto,
+  SessionDtoSchema,
+  SignUpRequestDto,
+  SignUpResponseDtoSchema,
 } from './auth.dto';
 
 export const toAuthSession = (raw: unknown): AuthSession => {
-  const dto = LoginResponseDtoSchema.parse(raw);
-  return { userId: String(dto.id), accessToken: dto.accessToken, refreshToken: dto.refreshToken };
+  const dto = SessionDtoSchema.parse(raw);
+  return { userId: dto.user.id, accessToken: dto.access_token, refreshToken: dto.refresh_token };
 };
 
 export const toAuthTokens = (raw: unknown): AuthTokens => {
-  const dto = RefreshResponseDtoSchema.parse(raw);
-  return { accessToken: dto.accessToken, refreshToken: dto.refreshToken };
+  const dto = SessionDtoSchema.parse(raw);
+  return { accessToken: dto.access_token, refreshToken: dto.refresh_token };
 };
 
 export const toRegisteredUser = (raw: unknown): RegisteredUser => {
-  const dto = AddUserResponseDtoSchema.parse(raw);
-  return { id: String(dto.id), username: dto.username };
+  const dto = SignUpResponseDtoSchema.parse(raw);
+  if ('user' in dto) {
+    return { id: dto.user.id, email: dto.user.email, needsEmailConfirmation: false };
+  }
+  return { id: dto.id, email: dto.email, needsEmailConfirmation: true };
 };
 
-export const toLoginRequest = (input: LoginInput): LoginRequestDto => ({
-  username: input.username,
+export const toPasswordGrantRequest = (input: LoginInput): PasswordGrantRequestDto => ({
+  email: input.email,
   password: input.password,
 });
 
-export const toRefreshRequest = (refreshToken: string): RefreshRequestDto => ({ refreshToken });
+export const toRefreshTokenGrantRequest = (refreshToken: string): RefreshTokenGrantRequestDto => ({
+  refresh_token: refreshToken,
+});
 
-export const toAddUserRequest = (input: RegisterInput): AddUserRequestDto => ({
-  firstName: input.firstName,
-  lastName: input.lastName,
+export const toSignUpRequest = (input: RegisterInput): SignUpRequestDto => ({
   email: input.email,
-  username: input.username,
   password: input.password,
+  data: {
+    first_name: input.firstName,
+    last_name: input.lastName,
+    username: input.username,
+  },
 });

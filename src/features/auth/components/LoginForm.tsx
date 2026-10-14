@@ -24,15 +24,16 @@ export default function LoginForm({ values, errors, submitError, isSubmitting, o
   return (
     <View>
       <Input
-        value={values.username}
-        onChangeText={(text) => onChangeField('username', text)}
-        error={errors.username}
-        placeholder={t('fields.username')}
-        accessibilityLabel={t('fields.username')}
+        value={values.email}
+        onChangeText={(text) => onChangeField('email', text)}
+        error={errors.email}
+        placeholder={t('fields.email')}
+        accessibilityLabel={t('fields.email')}
+        keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
-        autoComplete="username"
-        textContentType="username"
+        autoComplete="email"
+        textContentType="emailAddress"
         returnKeyType="next"
         submitBehavior="submit"
         onSubmitEditing={() => passwordRef.current?.focus()}

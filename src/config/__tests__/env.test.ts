@@ -1,4 +1,4 @@
-const VARIABLES = ['EXPO_PUBLIC_APP_VARIANT', 'EXPO_PUBLIC_API_URL'] as const;
+const VARIABLES = ['EXPO_PUBLIC_APP_VARIANT', 'EXPO_PUBLIC_API_URL', 'EXPO_PUBLIC_API_KEY'] as const;
 
 const loadEnv = (values: Partial<Record<(typeof VARIABLES)[number], string>>) => {
   const saved = VARIABLES.map((name) => [name, process.env[name]] as const);
@@ -26,9 +26,12 @@ describe('env', () => {
   });
 
   it('reads configured values', () => {
-    expect(loadEnv({ EXPO_PUBLIC_APP_VARIANT: 'qa', EXPO_PUBLIC_API_URL: 'https://api.test.com' })).toEqual({
+    expect(
+      loadEnv({ EXPO_PUBLIC_APP_VARIANT: 'qa', EXPO_PUBLIC_API_URL: 'https://api.test.com', EXPO_PUBLIC_API_KEY: 'key' })
+    ).toEqual({
       EXPO_PUBLIC_APP_VARIANT: 'qa',
       EXPO_PUBLIC_API_URL: 'https://api.test.com',
+      EXPO_PUBLIC_API_KEY: 'key',
     });
   });
 

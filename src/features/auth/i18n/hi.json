@@ -5,7 +5,8 @@
     "submit": "साइन इन करें",
     "noAccount": "खाता नहीं है?",
     "goToRegister": "रजिस्टर करें",
-    "registered": "{{username}} के लिए खाता बन गया। जारी रखने के लिए साइन इन करें।"
+    "registered": "{{email}} के लिए खाता बन गया। जारी रखने के लिए साइन इन करें।",
+    "confirmEmail": "हमने {{email}} पर पुष्टि लिंक भेजा है। अपना ईमेल पुष्टि करें, फिर साइन इन करें।"
   },
   "register": {
     "title": "खाता बनाएं",
@@ -22,7 +23,6 @@
     "password": "पासवर्ड"
   },
   "validation": {
-    "usernameRequired": "यूज़रनेम आवश्यक है",
     "usernameTooShort": "यूज़रनेम कम से कम 3 अक्षरों का होना चाहिए",
     "firstNameRequired": "पहला नाम आवश्यक है",
     "lastNameRequired": "उपनाम आवश्यक है"
