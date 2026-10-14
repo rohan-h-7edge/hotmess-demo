@@ -6,6 +6,13 @@ import NewInScreen from '../NewInScreen';
 jest.mock('../../queries/useProductPages', () => ({ useProductPages: jest.fn() }));
 
 const mockAddToCart = { mutate: jest.fn(), isPending: false, variables: undefined };
+const mockAddToWishlist = { mutate: jest.fn() };
+const mockRemoveFromWishlist = { mutate: jest.fn() };
+jest.mock('@/features/wishlist', () => ({
+  useWishlist: () => ({ data: [{ productId: '2' }] }),
+  useAddToWishlist: () => mockAddToWishlist,
+  useRemoveFromWishlist: () => mockRemoveFromWishlist,
+}));
 jest.mock('@/features/cart', () => ({
   useCart: () => ({ data: [{ productId: '2', quantity: 3 }] }),
   useAddToCart: () => mockAddToCart,
@@ -90,5 +97,16 @@ describe('NewInScreen', () => {
 
     expect(mockAddToCart.mutate).toHaveBeenCalledWith('1');
     expect(screen.getByRole('button', { name: 'In Cart (3)' })).toBeOnTheScreen();
+  });
+
+  it('saves and unsaves products with the heart', async () => {
+    jest.mocked(useProductPages).mockReturnValue(pages({ data: [product('1'), product('2')] }));
+    await render(<NewInScreen />);
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Add to wishlist' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Remove from wishlist' }));
+
+    expect(mockAddToWishlist.mutate).toHaveBeenCalledWith(expect.objectContaining({ productId: '1', typeName: 'Shirts' }));
+    expect(mockRemoveFromWishlist.mutate).toHaveBeenCalledWith('2');
   });
 });

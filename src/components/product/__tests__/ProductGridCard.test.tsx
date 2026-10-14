@@ -13,6 +13,7 @@ const renderCard = (props: Partial<React.ComponentProps<typeof ProductGridCard>>
       inStock
       cartQuantity={0}
       isAddingToCart={false}
+      isWishlisted={false}
       {...props}
     />
   );
@@ -54,5 +55,11 @@ describe('ProductGridCard', () => {
     await renderCard({ inStock: false });
 
     expect(screen.getByRole('button', { name: 'Out of Stock' })).toBeDisabled();
+  });
+
+  it('offers removing a saved product from the wishlist', async () => {
+    await renderCard({ isWishlisted: true });
+
+    expect(screen.getByRole('button', { name: 'Remove from wishlist' })).toBeSelected();
   });
 });

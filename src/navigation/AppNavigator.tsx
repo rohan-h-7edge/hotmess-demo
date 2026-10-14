@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginScreen, RegisterScreen } from '@/features/auth';
-import { CartScreen } from '@/features/cart';
 import { SplashScreen } from '@/features/splash';
 import { useAuth } from '@/features/user';
+import CartRoute from './CartRoute';
 import TabNavigator from './TabNavigator';
 import { useNavigationTheme } from '@/theme';
 import type { RootStackParamList } from './types';
@@ -26,7 +26,7 @@ export default function AppNavigator() {
       return (
         <>
           <Stack.Screen name="Main" component={TabNavigator} />
-          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="Cart" component={CartRoute} />
         </>
       );
     }

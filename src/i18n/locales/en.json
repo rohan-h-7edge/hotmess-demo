@@ -23,5 +23,13 @@
     "search": "Search",
     "bag": "Shopping bag"
   },
-  "comingSoon": "Coming soon."
+  "comingSoon": "Coming soon.",
+  "product": {
+    "colour": "Color: {{colour}}",
+    "addToCart": "Add to Cart",
+    "addToWishlist": "Add to wishlist",
+    "outOfStock": "Out of Stock",
+    "inCart": "In Cart ({{quantity}})",
+    "removeFromWishlist": "Remove from wishlist"
+  }
 }

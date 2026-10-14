@@ -2,15 +2,15 @@ import React from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button';
-import { SafeAreaScreen } from '@/components/common';
+import { ListHeader, SafeAreaScreen } from '@/components/common';
+import { ProductGridCard } from '@/components/product';
 import { useAddToCart, useCart } from '@/features/cart';
+import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from '@/features/wishlist';
 import { AppText } from '@/components/typography';
 import { spacing, useTheme } from '@/theme';
 import FilterButton from '../components/FilterButton';
-import ListHeader from '../components/ListHeader';
-import ProductGridCard from '../components/ProductGridCard';
 import { useProductPages } from '../queries/useProductPages';
-import type { ProductQuery } from '../types/catalog.types';
+import type { Product, ProductQuery } from '../types/catalog.types';
 import { formatPrice } from '@/utils/formatPrice';
 
 const NEW_IN_QUERY: ProductQuery = { categorySlug: 'apparel' };
@@ -21,8 +21,29 @@ export default function NewInScreen() {
   const products = useProductPages(NEW_IN_QUERY);
   const cart = useCart();
   const addToCart = useAddToCart();
+  const wishlist = useWishlist();
+  const addToWishlist = useAddToWishlist();
+  const removeFromWishlist = useRemoveFromWishlist();
   const priceLocale = `${i18n.language}-IN`;
   const cartQuantities = new Map(cart.data?.map((item) => [item.productId, item.quantity]));
+  const wishlistedIds = new Set(wishlist.data?.map((item) => item.productId));
+
+  const toggleWishlist = (product: Product) => {
+    if (wishlistedIds.has(product.id)) {
+      removeFromWishlist.mutate(product.id);
+      return;
+    }
+    addToWishlist.mutate({
+      productId: product.id,
+      name: product.name,
+      typeName: product.categoryName,
+      colour: product.colour,
+      price: product.price,
+      currency: product.currency,
+      imageUrl: product.imageUrl,
+      inStock: product.inStock,
+    });
+  };
 
   const loadMore = () => {
     if (products.hasNextPage && !products.isFetchingNextPage) products.fetchNextPage();
@@ -72,6 +93,8 @@ export default function NewInScreen() {
             inStock={item.inStock}
             cartQuantity={cartQuantities.get(item.id) ?? 0}
             isAddingToCart={addToCart.isPending && addToCart.variables === item.id}
+            isWishlisted={wishlistedIds.has(item.id)}
+            onWishlistPress={() => toggleWishlist(item)}
             onAddToCartPress={() => addToCart.mutate(item.id)}
           />
         )}

@@ -2,10 +2,11 @@ import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/button';
-import { Icon } from '@/components/icon';
-import { AppText } from '@/components/typography';
 import { radius, spacing, ThemeColors, useTheme } from '@/theme';
+import { moderateScale } from '@/utils/scaling';
+import { Button } from '../button';
+import { Icon } from '../icon';
+import { AppText } from '../typography';
 
 interface ProductGridCardProps {
   name: string;
@@ -16,11 +17,14 @@ interface ProductGridCardProps {
   inStock: boolean;
   cartQuantity: number;
   isAddingToCart: boolean;
+  isWishlisted: boolean;
   onWishlistPress?: () => void;
   onAddToCartPress?: () => void;
 }
 
-const heartIcon = require('@/assets/icons/heart-filled.svg');
+const heartFill = require('@/assets/icons/heart-filled.svg');
+const heartOutline = require('@/assets/icons/heart-outline.svg');
+const HEART_SIZE = moderateScale(24);
 
 export default function ProductGridCard({
   name,
@@ -31,10 +35,11 @@ export default function ProductGridCard({
   inStock,
   cartQuantity,
   isAddingToCart,
+  isWishlisted,
   onWishlistPress,
   onAddToCartPress,
 }: ProductGridCardProps) {
-  const { t } = useTranslation('catalog');
+  const { t } = useTranslation();
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
@@ -50,12 +55,16 @@ export default function ProductGridCard({
         <Image source={{ uri: imageUrl }} style={styles.image} contentFit="cover" recyclingKey={imageUrl} transition={200} />
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={t('product.addToWishlist')}
+          accessibilityLabel={isWishlisted ? t('product.removeFromWishlist') : t('product.addToWishlist')}
+          accessibilityState={{ selected: isWishlisted }}
           hitSlop={spacing.md}
           onPress={onWishlistPress}
           style={styles.wishlist}
         >
-          <Icon source={heartIcon} color={colors.onMedia} />
+          <Icon source={heartFill} color={isWishlisted ? colors.favorite : colors.onMedia} size={HEART_SIZE} />
+          <View style={styles.heartOutline}>
+            <Icon source={heartOutline} color={isWishlisted ? colors.favorite : colors.chrome} size={HEART_SIZE} />
+          </View>
         </Pressable>
         <View style={styles.pricePill}>
           <AppText variant="caption" color="chrome">
@@ -98,6 +107,10 @@ const createStyles = (colors: ThemeColors) =>
       position: 'absolute',
       top: spacing.sm,
       right: spacing.sm,
+    },
+    // Product photos are mostly white, so the white heart needs a thin dark edge to stay visible.
+    heartOutline: {
+      ...StyleSheet.absoluteFill,
     },
     pricePill: {
       position: 'absolute',

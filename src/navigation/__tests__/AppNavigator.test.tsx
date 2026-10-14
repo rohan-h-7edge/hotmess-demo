@@ -4,6 +4,10 @@ import { useUserStore } from '@/features/user';
 import { renderWithProviders } from '@/test-utils/renderWithProviders';
 import AppNavigator from '../AppNavigator';
 
+jest.mock('@/features/wishlist', () => ({
+  ...jest.requireActual('@/features/wishlist'),
+  useWishlist: () => ({ data: [], isPending: false, isRefetching: false, error: null, refetch: jest.fn() }),
+}));
 jest.mock('@/features/cart', () => ({
   ...jest.requireActual('@/features/cart'),
   useCart: () => ({ data: [], isPending: false, error: null, refetch: jest.fn() }),

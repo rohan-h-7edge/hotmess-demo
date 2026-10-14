@@ -1,4 +1,11 @@
 {
   "tabTitle": "Wishlist",
-  "title": "Wishlist"
+  "title": "Wishlist",
+  "count_one": "{{count}} saved item",
+  "count_other": "{{count}} saved items",
+  "empty": {
+    "title": "Your wishlist is empty",
+    "message": "Tap the heart on any product to save it here for later.",
+    "cta": "Shop Now"
+  }
 }

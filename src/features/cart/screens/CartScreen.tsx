@@ -15,10 +15,14 @@ import OrderDetails from '../components/OrderDetails';
 import { useCart } from '../queries/useCart';
 import { useRemoveFromCart } from '../queries/useRemoveFromCart';
 import { useUpdateCartQuantity } from '../queries/useUpdateCartQuantity';
-import { MAX_CART_QUANTITY } from '../types/cart.types';
+import { CartItem, MAX_CART_QUANTITY } from '../types/cart.types';
 import { cartTotal } from '../utils/cartTotal';
 
-export default function CartScreen({ navigation }: RootStackScreenProps<'Cart'>) {
+type CartScreenProps = RootStackScreenProps<'Cart'> & {
+  onMoveToWishlist?: (item: CartItem) => void;
+};
+
+export default function CartScreen({ navigation, onMoveToWishlist }: CartScreenProps) {
   const { t, i18n } = useTranslation('cart');
   const { colors } = useTheme();
   const styles = createStyles(colors);
@@ -64,6 +68,7 @@ export default function CartScreen({ navigation }: RootStackScreenProps<'Cart'>)
               inStock={item.inStock}
               onQuantityChange={(quantity) => updateQuantity.mutate({ productId: item.productId, quantity })}
               onRemove={() => removeFromCart.mutate(item.productId)}
+              onMoveToWishlist={() => onMoveToWishlist?.(item)}
             />
           )}
           ListFooterComponent={

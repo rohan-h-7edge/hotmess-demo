@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AppText } from '@/components/typography';
 import { spacing, ThemeColors, useTheme } from '@/theme';
+import { AppText } from '../typography';
 
 interface ListHeaderProps {
   title: string;

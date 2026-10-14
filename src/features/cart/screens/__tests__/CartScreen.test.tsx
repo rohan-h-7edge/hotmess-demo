@@ -10,6 +10,7 @@ jest.mock('../../queries/useCart', () => ({ useCart: jest.fn() }));
 jest.mock('../../queries/useUpdateCartQuantity', () => ({ useUpdateCartQuantity: jest.fn() }));
 jest.mock('../../queries/useRemoveFromCart', () => ({ useRemoveFromCart: jest.fn() }));
 
+
 const item = {
   productId: '1',
   name: 'Velvet Vogue Shirt',
@@ -24,13 +25,13 @@ const item = {
 const updateQuantity = { mutate: jest.fn() };
 const removeFromCart = { mutate: jest.fn() };
 
-const renderCart = async (cart: object) => {
+const renderCart = async (cart: object, onMoveToWishlist = jest.fn()) => {
   jest.mocked(useCart).mockReturnValue({ data: undefined, isPending: false, error: null, refetch: jest.fn(), ...cart } as never);
   jest.mocked(useUpdateCartQuantity).mockReturnValue(updateQuantity as never);
   jest.mocked(useRemoveFromCart).mockReturnValue(removeFromCart as never);
   const navigation = { goBack: jest.fn(), navigate: jest.fn() };
   const props = { navigation, route: { key: 'Cart', name: 'Cart' } } as unknown as RootStackScreenProps<'Cart'>;
-  await render(<CartScreen {...props} />);
+  await render(<CartScreen {...props} onMoveToWishlist={onMoveToWishlist} />);
   return navigation;
 };
 
@@ -82,5 +83,14 @@ describe('CartScreen', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent('Network error');
     expect(refetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes the item to move to the wishlist', async () => {
+    const onMoveToWishlist = jest.fn();
+    await renderCart({ data: [item] }, onMoveToWishlist);
+
+    await fireEvent.press(screen.getByRole('button', { name: 'Move to Wishlist' }));
+
+    expect(onMoveToWishlist).toHaveBeenCalledWith(item);
   });
 });

@@ -23,5 +23,13 @@
     "search": "खोजें",
     "bag": "शॉपिंग बैग"
   },
-  "comingSoon": "जल्द आ रहा है।"
+  "comingSoon": "जल्द आ रहा है।",
+  "product": {
+    "colour": "रंग: {{colour}}",
+    "addToCart": "कार्ट में डालें",
+    "addToWishlist": "विशलिस्ट में जोड़ें",
+    "outOfStock": "स्टॉक में नहीं",
+    "inCart": "कार्ट में ({{quantity}})",
+    "removeFromWishlist": "विशलिस्ट से हटाएं"
+  }
 }
