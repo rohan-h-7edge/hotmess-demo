@@ -426,10 +426,6 @@ Root stack
 
 Signing in or out switches the screen set automatically.
 
-## Backend
-
-The Supabase schema, migrations and catalog seed scripts live in a separate repo, `../hotmess-supabase`. The tables are `categories`, `products`, `cart_items` and `wishlist_items`, with row-level security so each user only sees their own cart and wishlist. Product images are in the public `product-images` storage bucket.
-
 ## Conventions
 
 Coding rules are in [AGENTS.md](AGENTS.md): file structure, the design system (theme tokens only, no hard-coded colours or sizes), translations for every user-facing string, testing, and SOLID guidelines.
