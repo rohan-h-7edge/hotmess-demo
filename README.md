@@ -82,6 +82,322 @@ src/
 plugins/                 Expo config plugins (Android keyboard insets)
 ```
 
+<details>
+<summary>Full project tree</summary>
+
+Generated, ignored and tooling folders are left out (`node_modules`, `android`, `ios`, `.expo`, `.git`, `.claude`). Every folder that contains code also has a `__tests__/` folder with its tests; those are left out to keep the tree readable.
+
+```
+hotmess-demo/
+├── assets
+│   ├── android-icon-background.png
+│   ├── android-icon-foreground.png
+│   └── android-icon-monochrome.png
+├── plugins
+│   └── withAndroidImeInsets.js
+├── src
+│   ├── assets
+│   │   ├── fonts
+│   │   │   ├── OFL.txt
+│   │   │   ├── Poppins-Medium.ttf
+│   │   │   ├── Poppins-Regular.ttf
+│   │   │   └── Poppins-SemiBold.ttf
+│   │   ├── icons
+│   │   │   ├── adaptive-icon-develop.png
+│   │   │   ├── adaptive-icon-prod.png
+│   │   │   ├── arrow-left.svg
+│   │   │   ├── cart.png
+│   │   │   ├── chevron-down.svg
+│   │   │   ├── chevron-right.svg
+│   │   │   ├── close.svg
+│   │   │   ├── editorials.png
+│   │   │   ├── eye-off.svg
+│   │   │   ├── eye.svg
+│   │   │   ├── filter.svg
+│   │   │   ├── globe.svg
+│   │   │   ├── heart-filled.svg
+│   │   │   ├── heart-outline.svg
+│   │   │   ├── heart.png
+│   │   │   ├── home.png
+│   │   │   ├── icon-develop.png
+│   │   │   ├── icon-prod.png
+│   │   │   ├── pencil.svg
+│   │   │   ├── percent.svg
+│   │   │   ├── profile.png
+│   │   │   └── search.png
+│   │   └── images
+│   │       ├── empty-cart.png
+│   │       ├── hotmess-frame.svg
+│   │       ├── hotmess-logo.png
+│   │       └── splash-screen.jpg
+│   ├── components
+│   │   ├── button
+│   │   │   ├── Button.tsx
+│   │   │   └── index.ts
+│   │   ├── common
+│   │   │   ├── AppHeader.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── ListHeader.tsx
+│   │   │   └── SafeAreaScreen.tsx
+│   │   ├── dialog
+│   │   │   ├── ConfirmDialog.tsx
+│   │   │   └── index.ts
+│   │   ├── icon
+│   │   │   ├── Icon.tsx
+│   │   │   └── index.ts
+│   │   ├── input
+│   │   │   ├── index.ts
+│   │   │   └── Input.tsx
+│   │   ├── product
+│   │   │   ├── index.ts
+│   │   │   └── ProductGridCard.tsx
+│   │   └── typography
+│   │       ├── AppText.tsx
+│   │       └── index.ts
+│   ├── config
+│   │   └── env.ts
+│   ├── features
+│   │   ├── auth
+│   │   │   ├── acl
+│   │   │   │   ├── auth.dto.ts
+│   │   │   │   └── authMapper.ts
+│   │   │   ├── components
+│   │   │   │   ├── AuthFooterLink.tsx
+│   │   │   │   ├── AuthHeader.tsx
+│   │   │   │   ├── AuthLayout.tsx
+│   │   │   │   ├── FormError.tsx
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   ├── PasswordInput.tsx
+│   │   │   │   └── RegisterForm.tsx
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── queries
+│   │   │   │   ├── useLogin.ts
+│   │   │   │   ├── useLogout.ts
+│   │   │   │   └── useRegister.ts
+│   │   │   ├── screens
+│   │   │   │   ├── LoginScreen.tsx
+│   │   │   │   └── RegisterScreen.tsx
+│   │   │   ├── services
+│   │   │   │   └── authService.ts
+│   │   │   ├── session
+│   │   │   │   └── refreshSession.ts
+│   │   │   ├── types
+│   │   │   │   └── auth.types.ts
+│   │   │   └── index.ts
+│   │   ├── cart
+│   │   │   ├── acl
+│   │   │   │   ├── cart.dto.ts
+│   │   │   │   └── cartMapper.ts
+│   │   │   ├── components
+│   │   │   │   ├── CartItemCard.tsx
+│   │   │   │   ├── CheckoutBar.tsx
+│   │   │   │   ├── CouponRow.tsx
+│   │   │   │   ├── EmptyCart.tsx
+│   │   │   │   ├── OrderDetails.tsx
+│   │   │   │   └── QuantityPicker.tsx
+│   │   │   ├── hooks
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── queries
+│   │   │   │   ├── cartKeys.ts
+│   │   │   │   ├── useAddToCart.ts
+│   │   │   │   ├── useCart.ts
+│   │   │   │   ├── useRemoveFromCart.ts
+│   │   │   │   └── useUpdateCartQuantity.ts
+│   │   │   ├── screens
+│   │   │   │   └── CartScreen.tsx
+│   │   │   ├── services
+│   │   │   │   └── cartService.ts
+│   │   │   ├── types
+│   │   │   │   └── cart.types.ts
+│   │   │   ├── utils
+│   │   │   │   └── cartTotal.ts
+│   │   │   └── index.ts
+│   │   ├── catalog
+│   │   │   ├── acl
+│   │   │   │   ├── catalog.dto.ts
+│   │   │   │   └── catalogMapper.ts
+│   │   │   ├── components
+│   │   │   │   ├── FilterButton.tsx
+│   │   │   │   ├── PopularSearches.tsx
+│   │   │   │   └── SearchBar.tsx
+│   │   │   ├── config
+│   │   │   │   └── collections.ts
+│   │   │   ├── hooks
+│   │   │   │   ├── useDebouncedValue.ts
+│   │   │   │   └── useProductCardActions.ts
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── queries
+│   │   │   │   ├── catalogKeys.ts
+│   │   │   │   ├── useProductPages.ts
+│   │   │   │   ├── useProducts.ts
+│   │   │   │   └── useTopCategories.ts
+│   │   │   ├── screens
+│   │   │   │   ├── ProductListScreen.tsx
+│   │   │   │   └── SearchScreen.tsx
+│   │   │   ├── services
+│   │   │   │   └── catalogService.ts
+│   │   │   ├── types
+│   │   │   │   └── catalog.types.ts
+│   │   │   └── index.ts
+│   │   ├── editorials
+│   │   │   ├── components
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── screens
+│   │   │   │   └── EditorialsScreen.tsx
+│   │   │   └── index.ts
+│   │   ├── home
+│   │   │   ├── components
+│   │   │   │   ├── CollectionTile.tsx
+│   │   │   │   ├── NewInSection.tsx
+│   │   │   │   ├── ProductCard.tsx
+│   │   │   │   └── PromoBanner.tsx
+│   │   │   ├── hooks
+│   │   │   │   └── useHomeCatalog.ts
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── screens
+│   │   │   │   └── HomeScreen.tsx
+│   │   │   └── index.ts
+│   │   ├── profile
+│   │   │   ├── components
+│   │   │   │   ├── LanguageSwitch.tsx
+│   │   │   │   ├── MenuRow.tsx
+│   │   │   │   ├── MenuSection.tsx
+│   │   │   │   └── ProfileHeader.tsx
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── screens
+│   │   │   │   ├── EditProfileScreen.tsx
+│   │   │   │   └── ProfileScreen.tsx
+│   │   │   └── index.ts
+│   │   ├── splash
+│   │   │   ├── components
+│   │   │   │   └── SplashProgressBar.tsx
+│   │   │   ├── i18n
+│   │   │   │   ├── en.json
+│   │   │   │   ├── hi.json
+│   │   │   │   └── index.ts
+│   │   │   ├── screens
+│   │   │   │   └── SplashScreen.tsx
+│   │   │   └── index.ts
+│   │   ├── user
+│   │   │   ├── acl
+│   │   │   │   ├── user.dto.ts
+│   │   │   │   └── userMapper.ts
+│   │   │   ├── components
+│   │   │   ├── hooks
+│   │   │   │   └── useAuth.ts
+│   │   │   ├── queries
+│   │   │   │   ├── userKeys.ts
+│   │   │   │   ├── useUpdateProfile.ts
+│   │   │   │   └── useUserProfile.ts
+│   │   │   ├── services
+│   │   │   │   └── userService.ts
+│   │   │   ├── store
+│   │   │   │   └── userStore.ts
+│   │   │   ├── types
+│   │   │   │   └── user.types.ts
+│   │   │   └── index.ts
+│   │   └── wishlist
+│   │       ├── acl
+│   │       │   ├── wishlist.dto.ts
+│   │       │   └── wishlistMapper.ts
+│   │       ├── components
+│   │       │   └── EmptyWishlist.tsx
+│   │       ├── hooks
+│   │       │   └── useMoveToWishlist.ts
+│   │       ├── i18n
+│   │       │   ├── en.json
+│   │       │   ├── hi.json
+│   │       │   └── index.ts
+│   │       ├── queries
+│   │       │   ├── useAddToWishlist.ts
+│   │       │   ├── useRemoveFromWishlist.ts
+│   │       │   ├── useWishlist.ts
+│   │       │   └── wishlistKeys.ts
+│   │       ├── screens
+│   │       │   └── WishlistScreen.tsx
+│   │       ├── services
+│   │       │   └── wishlistService.ts
+│   │       ├── types
+│   │       │   └── wishlist.types.ts
+│   │       └── index.ts
+│   ├── hooks
+│   │   ├── useForm.ts
+│   │   ├── useGridItemWidth.ts
+│   │   ├── useLanguage.ts
+│   │   └── useRefetchOnAppFocus.ts
+│   ├── i18n
+│   │   ├── locales
+│   │   │   ├── en.json
+│   │   │   └── hi.json
+│   │   ├── i18next.d.ts
+│   │   └── index.ts
+│   ├── navigation
+│   │   ├── AppNavigator.tsx
+│   │   ├── CartRoute.tsx
+│   │   ├── HomeStackNavigator.tsx
+│   │   ├── renderAppHeader.tsx
+│   │   ├── TabNavigator.tsx
+│   │   └── types.ts
+│   ├── services
+│   │   ├── api.ts
+│   │   └── queryClient.ts
+│   ├── test-utils
+│   │   └── renderWithProviders.tsx
+│   ├── theme
+│   │   ├── colors.ts
+│   │   ├── index.ts
+│   │   ├── navigationTheme.ts
+│   │   ├── radius.ts
+│   │   ├── spacing.ts
+│   │   ├── typography.ts
+│   │   └── useTheme.ts
+│   ├── types
+│   │   └── index.ts
+│   ├── utils
+│   │   ├── formatPrice.ts
+│   │   ├── haptics.ts
+│   │   ├── scaling.ts
+│   │   ├── storageUrl.ts
+│   │   └── validation.ts
+│   └── App.tsx
+├── AGENTS.md
+├── app.config.ts
+├── CLAUDE.md
+├── .env
+├── eslint.config.js
+├── .gitignore
+├── index.ts
+├── jest.config.js
+├── jest.setup.ts
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── README.md
+├── skills-lock.json
+└── tsconfig.json
+```
+
+</details>
+
 ### Features
 
 Each feature folder contains what it needs from `screens/`, `components/`, `queries/`, `services/`, `acl/`, `types/`, `hooks/` and `i18n/`, plus an `index.ts` that is its public API. Other code imports a feature only through that `index.ts`.
