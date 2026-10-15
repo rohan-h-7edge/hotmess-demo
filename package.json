@@ -12,6 +12,7 @@
     "axios": "^1.20.0",
     "dotenv": "^18.0.7",
     "expo": "~57.0.28",
+    "expo-build-properties": "~57.0.22",
     "expo-font": "~57.0.4",
     "expo-haptics": "~57.0.3",
     "expo-image": "~57.0.5",
@@ -60,7 +61,8 @@
     "build:ios": "npm run prebuild && expo run:ios",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "build:apk": "npm run prebuild && cd android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a"
   },
   "private": true
 }

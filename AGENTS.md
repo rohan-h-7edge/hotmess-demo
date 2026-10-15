@@ -22,6 +22,7 @@ npx tsc --noEmit            # typecheck
 npm test                    # component and unit tests
 npx expo-doctor             # diagnose dependency and config issues
 npm run build               # prebuild + run on Android (npm run build:ios for iOS)
+npm run build:apk           # release APK for arm64 phones (android/app/build/outputs/apk/release/)
 ```
 
 ## Project structure

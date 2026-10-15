@@ -35,6 +35,7 @@ Never put a secret or `service_role` key in an `EXPO_PUBLIC_*` variable; those a
 |---|---|
 | `npm start` | Start Metro with a clean cache |
 | `npm run build` / `build:ios` | Generate native projects and run on Android / iOS |
+| `npm run build:apk` | Release APK for arm64 phones, written to `android/app/build/outputs/apk/release/` |
 | `npm run lint` | ESLint |
 | `npx tsc --noEmit` | Type check |
 | `npm test` | Jest unit and component tests (`test:coverage` for coverage) |

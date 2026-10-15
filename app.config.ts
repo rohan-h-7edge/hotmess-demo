@@ -74,6 +74,16 @@ export default {
   },
   plugins: [
     [
+      "expo-build-properties",
+      {
+        android: {
+          enableMinifyInReleaseBuilds: true,
+          enableShrinkResourcesInReleaseBuilds: true,
+          useLegacyPackaging: true,
+        },
+      },
+    ],
+    [
       "expo-font",
       {
         fonts: [
